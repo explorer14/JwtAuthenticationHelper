@@ -2,7 +2,7 @@
 
 A simple Json Web Token authentication helper library that allows you to generate access tokens easily for both ASP.NET Core web apps (cookie based auth) and Web APIs (stateless token based auth). 
 
-##NB: 
+## NB: 
 
 This library is not yet available as a nuget package, I am working on that. In the mean time just clone the repo, build from source and add as either a project reference or create your own nuget package for your private nuget feed.
 
