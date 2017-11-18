@@ -1,6 +1,6 @@
 # JwtAuthenticationHelper
 
-A simple Json Web Token authentication helper library that allows you to generate access tokens easily for both ASP.NET Core web apps (cookie based auth) and Web APIs (stateless token based auth). 
+A simple Json Web Token authentication helper library to generate access tokens easily and reusably for both ASP.NET Core web apps (cookie based auth) and Web APIs (stateless token based auth). 
 
 ## NB: 
 
