@@ -20,9 +20,9 @@ The signing key can be any sufficiently unique minimum 23-character long string 
 
 DO NOT expose this key outside of the server, best practice would be to store this key securely (for e.g. in Azure Key Vault or a similar service)
 
-Startup.cs:
+## Startup.cs:
 
-## Enable authentication
+### Enable authentication
 
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
@@ -38,7 +38,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     });
 }
 
-## Add required services:
+### Add required services:
 
 public void ConfigureServices(IServiceCollection services)
 {            
@@ -88,7 +88,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddMvc();
 }
 
-## Add the appropriate dependencies in the auth controller:
+### Add the appropriate dependencies in the auth controller:
 
 Please see the AccountController.cs file in the reference project to see how the token generator is used to issue access tokens after a successful authentication attempt. The issued JWT will contain all the claims about the user
 in addition to the default JWT claims. For subsequent requests, you will be able to extract the user info (like username, first name and last name) from this token and that information will be available via the HttpContext.User
