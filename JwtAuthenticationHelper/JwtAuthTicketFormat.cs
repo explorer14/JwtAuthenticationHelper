@@ -72,17 +72,24 @@ namespace JwtAuthenticationHelper
                 .Properties?
                 .GetTokenValue(TokenConstants.TokenName);
 
-            new JwtSecurityTokenHandler()
-                .ValidateToken(embeddedJwt, validationParameters, out var token);
-
-            if (!(token is JwtSecurityToken jwt))
+            try
             {
-                throw new SecurityTokenValidationException("JWT token was found to be invalid");
+                new JwtSecurityTokenHandler()
+                    .ValidateToken(embeddedJwt, validationParameters, out var token);
+
+                if (!(token is JwtSecurityToken jwt))
+                {
+                    throw new SecurityTokenValidationException("JWT token was found to be invalid");
+                }
+
+                if (!jwt.Header.Alg.Equals(Algorithm, StringComparison.Ordinal))
+                {
+                    throw new ArgumentException($"Algorithm must be '{Algorithm}'");
+                }
             }
-
-            if (!jwt.Header.Alg.Equals(Algorithm, StringComparison.Ordinal))
+            catch (Exception)
             {
-                throw new ArgumentException($"Algorithm must be '{Algorithm}'");
+                return null;
             }
 
             return authTicket;

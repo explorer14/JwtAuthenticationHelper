@@ -72,7 +72,7 @@ namespace JwtAuthenticationHelpers.Tests
             Thread.Sleep(options.TokenExpiryInMinutes * 60 * 1000);
 
             // Act & // Assert
-            Assert.Throws<SecurityTokenExpiredException>(() => ticketFormat.Unprotect(encryptedString));
+            Assert.Null(ticketFormat.Unprotect(encryptedString));
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace JwtAuthenticationHelpers.Tests
                     "Cookies"));
 
             // Act & assert
-            Assert.Throws<ArgumentException>(() => ticketFormat.Unprotect(encryptedString));
+            Assert.Null(ticketFormat.Unprotect(encryptedString));
         }
 
         [Fact]
@@ -120,7 +120,7 @@ namespace JwtAuthenticationHelpers.Tests
                     "Cookies"));
 
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => ticketFormat.Unprotect(encryptedString));
+            Assert.Null(ticketFormat.Unprotect(encryptedString));
         }
 
         [Fact]
@@ -139,7 +139,7 @@ namespace JwtAuthenticationHelpers.Tests
                     "Cookies"));
 
             // Act & assert
-            Assert.Throws<ArgumentNullException>(() => ticketFormat.Unprotect(encryptedString));
+            Assert.Null(ticketFormat.Unprotect(encryptedString));
         }
 
         private static TokenWithClaimsPrincipal Jwt(TokenOptions options = null)
