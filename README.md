@@ -12,6 +12,14 @@ In the sample application I have only used the library to generate JWTs for use 
 
 # Setup
 
+## In version 2.1 a new convenience extension method has been introduced that encapsulates all the data protection and cookie auth boiler plate so that the developer only needs to call this single extension method in their
+Startup.cs::ConfigureServices method to add JWT Auth helper and use the IJwtTokenGenerator in the controllers. This extension method takes the following parameters:
+
+a) A mandatory instance of TokenValidationParameters. If its null, an exception will be thrown.
+b) Application discriminator string to be used by data protection API internally to keep the encryption keys isolated per application. If no value is passed in then by default it will use IHostingEnvironment.ApplicationName.
+c) Instance of AuthUrlOptions class that can be used to specify the login/logout path and the returnUrl parameter name. The defaults are the same as that of out of the box ASP.NET Core MVC cookie authentication i.e.
+login path = "/Account/Login", logout path = "/Account/Logout" and return url param = "returnUrl".
+
 ## Add the parameters needed for token generation and validations in the appSettings.json file:
 
 "Token": {
@@ -43,12 +51,11 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     });
 }
 
-### Add required services:
+### Add Jwt Auth service via the new extension method (NEW):
 
 public void ConfigureServices(IServiceCollection services)
 {            
-    var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Token:SigningKey"]));
-    var validationParams = new TokenValidationParameters()
+	var validationParams = new TokenValidationParameters
     {
         ClockSkew = TimeSpan.Zero,
 
@@ -58,45 +65,19 @@ public void ConfigureServices(IServiceCollection services)
         ValidateIssuer = true,
         ValidIssuer = Configuration["Token:Issuer"],
 
-        IssuerSigningKey = signingKey,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Token:SigningKey"])),
         ValidateIssuerSigningKey = true,
 
         RequireExpirationTime = true,
         ValidateLifetime = true
     };
-    
-	// the custom ticket format used later will require an IDataProtector and an IDataSerializer to able to 
-	// properly secure and read the authentication ticket, so add these dependencies here.
-    services.AddDataProtection(options => options.ApplicationDiscriminator = $"{Environment.ApplicationName}")
-        .SetApplicationName($"{Environment.ApplicationName}");
-    services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
-
-	// Add the IJwtTokenGenerator dependency here passing the token options (extension method is included in the library for convenience)
-    services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>(serviceProvider =>
-        new JwtTokenGenerator(validationParams.ToTokenOptions()));
-    services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    })
-    .AddCookie(options =>
-    {        
-		// I would probably set the cookie to expire at the same time as the token which is 5 minutes by default
-        options.Cookie.Expiration = TimeSpan.FromMinutes(5);     
-		// provide our ticket data format for the cookie auth system to use.
-        options.TicketDataFormat = new JwtAuthTicketFormat(validationParams,
-            services.BuildServiceProvider().GetService<IDataSerializer<AuthenticationTicket>>(),
-            services.BuildServiceProvider().GetDataProtector(new[] { $"{Environment.ApplicationName}-Auth1" }));
-
-        options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-        options.AccessDeniedPath = options.LoginPath;
-        options.ReturnUrlParameter = "returnUrl";
-    });
+			
+    services.AddJwtAuthenticationWithProtectedCookie(validationParams);
 
     services.AddMvc();
 }
+
+You can still add all the boilerplate manually if you need to tweak it further for your purposes. This convenience extension method is just a quick way to get up and running with reasonable defaults.
 
 ### Add the appropriate dependencies in the auth controller:
 
