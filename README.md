@@ -4,7 +4,7 @@ A simple Json Web Token authentication helper library to generate access tokens 
 
 ## NB: 
 
-This library is not yet available as a nuget package, I am working on that. In the mean time just clone the repo, build from source and add as either a project reference or create your own nuget package for your private nuget feed.
+This library is not yet available as a nuget package. In the mean time just clone the repo, build from source and add as either a project reference or create your own nuget package for your private nuget feed.
 
 # Intended Usage
 
@@ -12,7 +12,7 @@ In the sample application I have only used the library to generate JWTs for use 
 
 # Setup
 
-## In version 2.1 a new convenience extension method has been introduced that encapsulates all the data protection and cookie auth boiler plate so that the developer only needs to call this single extension method in their
+### In version 2.1 a new convenience extension method has been introduced that encapsulates all the data protection and cookie auth boiler plate so that the developer only needs to call this single extension method in their
 Startup.cs::ConfigureServices method to add JWT Auth helper and use the IJwtTokenGenerator in the controllers. This extension method takes the following parameters:
 
 a) A mandatory instance of TokenValidationParameters. If its null, an exception will be thrown.
@@ -39,7 +39,7 @@ DO NOT expose this key outside of the server, best practice would be to store th
 
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
-    ...
+    // other stuff
     
     app.UseAuthentication();
 
