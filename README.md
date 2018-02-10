@@ -36,7 +36,6 @@ DO NOT expose this key outside of the server, best practice would be to store th
 ## Startup.cs:
 
 ### Enable authentication
-
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
     // other stuff
@@ -52,7 +51,6 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 }
 
 ### Add Jwt Auth service via the new extension method (NEW):
-
 public void ConfigureServices(IServiceCollection services)
 {            
 	var validationParams = new TokenValidationParameters
