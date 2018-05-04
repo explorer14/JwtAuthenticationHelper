@@ -1,6 +1,7 @@
 ﻿using JwtAuthenticationHelper.Abstractions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -96,6 +97,34 @@ namespace JwtAuthenticationHelper.Extensions
                     : new PathString("/Account/Logout");
                 options.AccessDeniedPath = options.LoginPath;
                 options.ReturnUrlParameter = authUrlOptions?.ReturnUrlParameter ?? "returnUrl";
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddJwtAuthenticationForAPI(this IServiceCollection services,
+            TokenValidationParameters tokenValidationParams)
+        {
+            if (tokenValidationParams == null)
+            {
+                throw new ArgumentNullException(
+                    $"{nameof(tokenValidationParams)} is a required parameter. " +
+                    $"Please make sure you've provided a valid instance with the appropriate values configured.");
+            }
+
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>(serviceProvider =>
+                new JwtTokenGenerator(tokenValidationParams.ToTokenOptions(1)));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).
+            AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = tokenValidationParams;
             });
 
             return services;

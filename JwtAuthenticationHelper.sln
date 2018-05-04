@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.27110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthenticationHelper", "JwtAuthenticationHelper\JwtAuthenticationHelper.csproj", "{031FC838-6C97-4463-8564-751A132366C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtAuthenticationHelpers.Tests", "JwtAuthenticationHelpers.Tests\JwtAuthenticationHelpers.Tests.csproj", "{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthenticationHelpers.Tests", "JwtAuthenticationHelpers.Tests\JwtAuthenticationHelpers.Tests.csproj", "{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtTokenAuthRefImplementation.Web", "JwtTokenAuthRefImplementation.Web\JwtTokenAuthRefImplementation.Web.csproj", "{7FA98FBA-EB33-44E4-B779-982DE00A6C30}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtTokenAuthRefImplementation.API", "JwtTokenAuthRefImplementation.API\JwtTokenAuthRefImplementation.API.csproj", "{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{7FA98FBA-EB33-44E4-B779-982DE00A6C30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FA98FBA-EB33-44E4-B779-982DE00A6C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FA98FBA-EB33-44E4-B779-982DE00A6C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

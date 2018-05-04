@@ -19,7 +19,7 @@ namespace JwtTokenAuthRefImplementation.Web.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Policy = "RequiresAdmin")]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

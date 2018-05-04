@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -35,13 +36,16 @@ namespace JwtTokenAuthRefImplementation.Web.Controllers
             ViewBag.returnUrl = returnUrl;
             var returnTo = "/Account/Login";
 
-            // Replace this with your custom authentication logic
+            // Replace this with your custom authentication logic which will
+            // securely return the authenticated user's details including
+            // any role specific info
             if (userCredentials.Username == "user1" && userCredentials.Password == "pass1")
             {
                 var userInfo = new UserInfo
                 {
                     FirstName = "UserFName",
-                    LastName = "UserLName"
+                    LastName = "UserLName",
+                    HasAdminRights = true
                 };
 
                 var accessTokenResult = tokenGenerator.GenerateAccessTokenWithClaimsPrincipal(
@@ -82,7 +86,8 @@ namespace JwtTokenAuthRefImplementation.Web.Controllers
             var myClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.GivenName, authenticatedUser.FirstName),
-                new Claim(ClaimTypes.Surname, authenticatedUser.LastName)
+                new Claim(ClaimTypes.Surname, authenticatedUser.LastName),
+                new Claim("HasAdminRights", authenticatedUser.HasAdminRights ? "Y" : "N")
             };
 
             return myClaims;
