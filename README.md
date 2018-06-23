@@ -36,7 +36,7 @@ DO NOT expose this key outside of the server, best practice would be to store th
 ## Startup.cs:
 
 ### Enable authentication
-`public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+```public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {        
     app.UseAuthentication();
 
@@ -46,7 +46,7 @@ DO NOT expose this key outside of the server, best practice would be to store th
             name: "default",
             template: "{controller=Home}/{action=Index}/{id?}");
     });
-}`
+}```
 
 ### Add Jwt Auth service via the new extension method (NEW):
 `public void ConfigureServices(IServiceCollection services)
