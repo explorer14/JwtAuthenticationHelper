@@ -36,7 +36,8 @@ DO NOT expose this key outside of the server, best practice would be to store th
 ## Startup.cs:
 
 ### Enable authentication
-```public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+
+`public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {        
     app.UseAuthentication();
 
@@ -46,7 +47,7 @@ DO NOT expose this key outside of the server, best practice would be to store th
             name: "default",
             template: "{controller=Home}/{action=Index}/{id?}");
     });
-}```
+}`
 
 ### Add Jwt Auth service via the new extension method (NEW):
 `public void ConfigureServices(IServiceCollection services)
@@ -78,8 +79,8 @@ You can still add all the boilerplate manually if you need to tweak it further f
 ### Add the appropriate dependencies in the auth controller:
 Please see the AccountController.cs file in the reference project to see how the token generator is used to issue access tokens after a successful authentication attempt. You can pass in custom claims to the JWT generator which it will add to the set of default JWT claims. For subsequent requests, you will then be able to extract the user info (like username, first name and last name and any claims) from this token and that information will be available via the HttpContext.User property which is the point of using a token based approach to authentication i.e. no server side state.
 
-`string firstName = httpContext.User?.FindFirst(ClaimTypes.GivenName).Value;
+`string firstName = httpContext.User?.FindFirst(ClaimTypes.GivenName).Value;`
 
-string lastName = httpContext.User?.FindFirst(ClaimTypes.Surname).Value;
+`string lastName = httpContext.User?.FindFirst(ClaimTypes.Surname).Value;`
 
-string email = httpContext.User?.Identity.Name;`
+`string email = httpContext.User?.Identity.Name;`
