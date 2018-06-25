@@ -22,11 +22,13 @@ c) Instance of AuthUrlOptions class that can be used to specify the login/logout
 login path = "/Account/Login", logout path = "/Account/Logout" and return url param = "returnUrl".
 
 ## Add the parameters needed for token generation and validations in the appSettings.json file:
+```
 "Token": {
   "Issuer": "Token.WebApp",
   "Audience": "Token.WebApp.Clients",
   "SigningKey": "f47b558d-7654-458c-99f2-13b190ef0199"
 }
+```
 
 The signing key can be any sufficiently unique minimum 23-character long string (GUIDs are a fine candidate). The issuer and audience can be any string that makes sense in the context of your application, I just use the same names
 as my application for issuer and for audience I just append the word "Clients". If you come up with a better scheme let me know.
@@ -36,8 +38,8 @@ DO NOT expose this key outside of the server, best practice would be to store th
 ## Startup.cs:
 
 ### Enable authentication
-
-`public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+```
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {        
     app.UseAuthentication();
 
@@ -47,10 +49,11 @@ DO NOT expose this key outside of the server, best practice would be to store th
             name: "default",
             template: "{controller=Home}/{action=Index}/{id?}");
     });
-}`
-
+}
+```
 ### Add Jwt Auth service via the new extension method (NEW):
-`public void ConfigureServices(IServiceCollection services)
+```
+public void ConfigureServices(IServiceCollection services)
 {            
 	var validationParams = new TokenValidationParameters
     {
@@ -72,15 +75,15 @@ DO NOT expose this key outside of the server, best practice would be to store th
     services.AddJwtAuthenticationWithProtectedCookie(validationParams);
 
     services.AddMvc();
-}`
+}
+```
 
 You can still add all the boilerplate manually if you need to tweak it further for your purposes. This convenience extension method is just a quick way to get up and running with reasonable defaults.
 
 ### Add the appropriate dependencies in the auth controller:
 Please see the AccountController.cs file in the reference project to see how the token generator is used to issue access tokens after a successful authentication attempt. You can pass in custom claims to the JWT generator which it will add to the set of default JWT claims. For subsequent requests, you will then be able to extract the user info (like username, first name and last name and any claims) from this token and that information will be available via the HttpContext.User property which is the point of using a token based approach to authentication i.e. no server side state.
-
-`string firstName = httpContext.User?.FindFirst(ClaimTypes.GivenName).Value;`
-
-`string lastName = httpContext.User?.FindFirst(ClaimTypes.Surname).Value;`
-
-`string email = httpContext.User?.Identity.Name;`
+```
+string firstName = httpContext.User?.FindFirst(ClaimTypes.GivenName).Value;
+string lastName = httpContext.User?.FindFirst(ClaimTypes.Surname).Value;
+string email = httpContext.User?.Identity.Name;
+```
