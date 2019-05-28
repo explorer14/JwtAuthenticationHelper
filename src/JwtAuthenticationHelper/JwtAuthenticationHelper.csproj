@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+    <FileVersion>2.1.1.0</FileVersion>
+    <Version>2.1.1</Version>
+    <Copyright>©Aman Agrawal</Copyright>
+    <Authors>Aman Agrawal</Authors>
+    <Company>Aman Agrawal</Company>
+    <Description>A simple Json Web Token authentication helper library that allows you to generate access tokens easily for both ASP.NET Core web apps (cookie based auth) and Web APIs (stateless token based auth).</Description>
+    <PackageTags>authentication, jwt, json web token, token based authentication, identity, asp.net core, claims principal, extensible, web api</PackageTags>
+    <PackageReleaseNotes>v2.1: Added a convenience extension class to JwtAuthenticationHelper.Extensions namespace that encapsulates all the boilerplate related to data protection and authentication services. Now, instead of doing all this manually, developers can just call this extension method in their Startup.cs class and pass in the TokenValidationParameters instance, an optional unique application discriminator string (the default is the application name as set in the IHostingEnvironment) and an optional AuthUrlOptions instance (the default is to use the same login/logout urls and return url parameter as that of default ASP.NET Core cookie auth)</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\JwtAuthenticationHelper.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Cookies">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.authentication.cookies\2.0.4\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Cookies.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
