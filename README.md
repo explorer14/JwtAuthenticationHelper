@@ -13,7 +13,7 @@ In the sample application I have only used the library to generate JWTs for use 
 # Setup
 
 ## BREAKING CHANGES:
-In version 3.0.0, the middleware bootstrapping has been simplified so that the `TokenValidationParameters` instance is no longer required to be provided by consumers, instead a lighter weight `TokenOptions` instance that can be hydrated from `appsettings.json`, has been introduced. This does make it a breaking change, if you have forked this repo, please make sure you rebase the changes onto your forks.
+In version 3.0.0, the middleware bootstrapping has been simplified so that the `TokenValidationParameters` instance is no longer required to be provided by consumers, instead a lighter weight [`TokenOptions`](https://github.com/explorer14/JwtAuthenticationHelper/blob/master/src/JwtAuthenticationHelper/Types/TokenOptions.cs) instance that can be hydrated from `appsettings.json`, has been introduced. This does make it a breaking change, if you have forked this repo, please make sure you rebase the changes onto your forks.
 
 Below is a quick how-to for the library/package:
 
@@ -70,7 +70,7 @@ You can still add all the boilerplate manually if you need to tweak it further f
 
 4. Add the appropriate dependencies in the auth controller:
 
-Please see the AccountController.cs file in the reference project to see how the token generator is used to issue access tokens after a successful authentication attempt. You can pass in custom claims to the JWT generator which it will add to the set of default JWT claims. For subsequent requests, you will then be able to extract the user info (like username, first name and last name and any claims) from this token and that information will be available via the HttpContext.User property which is the point of using a token based approach to authentication i.e. no server side state.
+Please see the [AccountController.cs](https://github.com/explorer14/JwtAuthenticationHelper/blob/master/src/JwtTokenAuthRefImplementation.Web/Controllers/AccountController.cs#L51) file in the reference project to see how the token generator is used to issue access tokens after a successful authentication attempt. You can pass in custom claims to the JWT generator which it will add to the set of default JWT claims. For subsequent requests, you will then be able to extract the user info (like username, first name and last name and any claims) from this token and that information will be available via the HttpContext.User property which is the point of using a token based approach to authentication i.e. no server side state.
 
 ```
 string firstName = httpContext.User?.FindFirst(ClaimTypes.GivenName).Value;
