@@ -1,4 +1,5 @@
 ﻿using JwtAuthenticationHelper.Abstractions;
+using JwtAuthenticationHelper.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using System;
 
 namespace JwtAuthenticationHelper.Extensions
@@ -16,29 +16,21 @@ namespace JwtAuthenticationHelper.Extensions
     /// </summary>
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// Add cookie backed JWT authentication to the application using the passed in validation parameters
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="tokenValidationParams"></param>
-        /// <param name="applicationDiscriminator">
-        /// An optional unique string that identifies the application to the data protection api for encryption key isolation.
-        /// </param>
-        /// <param name="authUrlOptions"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddJwtAuthenticationWithProtectedCookie(this IServiceCollection services,
-            TokenValidationParameters tokenValidationParams,
+        public static IServiceCollection AddJwtAuthenticationWithProtectedCookie(
+            this IServiceCollection services,
+            TokenOptions tokenOptions,
             string applicationDiscriminator = null,
             AuthUrlOptions authUrlOptions = null)
         {
-            if (tokenValidationParams == null)
+            if (tokenOptions == null)
             {
                 throw new ArgumentNullException(
-                    $"{nameof(tokenValidationParams)} is a required parameter. " +
+                    $"{nameof(tokenOptions)} is a required parameter. " +
                     $"Please make sure you've provided a valid instance with the appropriate values configured.");
             }
 
-            var hostingEnvironment = services.BuildServiceProvider().GetService<IHostingEnvironment>();
+            var hostingEnvironment = services.BuildServiceProvider()
+                .GetService<IHostingEnvironment>();
             // The JwtAuthTicketFormat representing the cookie needs an IDataProtector and
             // IDataSerialiser to correctly encrypt/decrypt and serialise/deserialise the payload
             // respectively. This requirement is enforced by ISecureDataFormat interface in ASP.NET
@@ -48,20 +40,27 @@ namespace JwtAuthenticationHelper.Extensions
             //     cookieless auth (such as with a Web API) the data protection and serialisation
             //     dependencies won't be needed. You simply need to set the validation params and add
             //     the token generator dependencies and use the right authentication extension below.
-            services.AddDataProtection(options => options.ApplicationDiscriminator =
+            services.AddDataProtection(options =>
+            options.ApplicationDiscriminator =
                 $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}")
-                .SetApplicationName($"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}");
+                .SetApplicationName(
+                $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}");
 
             services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>(serviceProvider =>
-                new JwtTokenGenerator(tokenValidationParams.ToTokenOptions(1)));
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>(
+                serviceProvider =>
+                new JwtTokenGenerator(
+                    tokenOptions));
 
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme =
+                    CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme =
+                    CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme =
+                    CookieAuthenticationDefaults.AuthenticationScheme;
             })
             .AddCookie(options =>
             {
@@ -82,12 +81,15 @@ namespace JwtAuthenticationHelper.Extensions
                 // that if the incoming token is invalid (may be it was tampered or spoofed) the
                 // Unprotect() method in JwtAuthTicketFormat will simply return null and the
                 // authentication will fail.
-                options.TicketDataFormat = new JwtAuthTicketFormat(tokenValidationParams,
-                    services.BuildServiceProvider().GetService<IDataSerializer<AuthenticationTicket>>(),
-                    services.BuildServiceProvider().GetDataProtector(new[]
-                    {
-                        $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}-Auth1"
-                    }));
+                options.TicketDataFormat = new JwtAuthTicketFormat(
+                    tokenOptions.ToTokenValidationParams(),
+                    services.BuildServiceProvider()
+                        .GetService<IDataSerializer<AuthenticationTicket>>(),
+                    services.BuildServiceProvider()
+                        .GetDataProtector(new[]
+                        {
+                            $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}-Auth1"
+                        }));
 
                 options.LoginPath = authUrlOptions != null ?
                     new PathString(authUrlOptions.LoginPath)
@@ -102,29 +104,34 @@ namespace JwtAuthenticationHelper.Extensions
             return services;
         }
 
-        public static IServiceCollection AddJwtAuthenticationForAPI(this IServiceCollection services,
-            TokenValidationParameters tokenValidationParams)
+        public static IServiceCollection AddJwtAuthenticationForAPI(
+            this IServiceCollection services,
+            TokenOptions tokenOptions)
         {
-            if (tokenValidationParams == null)
+            if (tokenOptions == null)
             {
                 throw new ArgumentNullException(
-                    $"{nameof(tokenValidationParams)} is a required parameter. " +
+                    $"{nameof(tokenOptions)} is a required parameter. " +
                     $"Please make sure you've provided a valid instance with the appropriate values configured.");
             }
 
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>(serviceProvider =>
-                new JwtTokenGenerator(tokenValidationParams.ToTokenOptions(1)));
+                new JwtTokenGenerator(tokenOptions));
 
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme =
+                    JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme =
+                    JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme =
+                    JwtBearerDefaults.AuthenticationScheme;
             }).
             AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.SaveToken = true;
-                options.TokenValidationParameters = tokenValidationParams;
+                options.TokenValidationParameters =
+                tokenOptions.ToTokenValidationParams();
             });
 
             return services;
@@ -132,7 +139,8 @@ namespace JwtAuthenticationHelper.Extensions
     }
 
     /// <summary>
-    /// A simple structure to store the configured login/logout paths and the name of the return url parameter
+    /// A simple structure to store the configured login/logout
+    /// paths and the name of the return url parameter
     /// </summary>
     public sealed class AuthUrlOptions
     {

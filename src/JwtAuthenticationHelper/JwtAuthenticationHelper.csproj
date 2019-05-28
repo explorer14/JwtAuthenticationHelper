@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>3.0.0</Version>
+    <Copyright>©Aman Agrawal</Copyright>
+    <Authors>Aman Agrawal</Authors>
+    <Company>Aman Agrawal</Company>
+    <Description>A simple Json Web Token authentication helper library that allows you to generate access tokens easily for both ASP.NET Core web apps (cookie based auth) and Web APIs (stateless token based auth).</Description>
+    <PackageTags>authentication, jwt, json web token, token based authentication, identity, asp.net core, claims principal, extensible, web api</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\JwtAuthenticationHelper.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Cookies">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.authentication.cookies\2.0.4\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Cookies.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

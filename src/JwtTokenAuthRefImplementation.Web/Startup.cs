@@ -1,11 +1,9 @@
 ﻿using JwtAuthenticationHelper.Extensions;
+using JwtAuthenticationHelper.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Text;
 
 namespace JwtTokenAuthRefImplementation.Web
 {
@@ -21,29 +19,18 @@ namespace JwtTokenAuthRefImplementation.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // retrieve the configured token params and establish a TokenValidationParameters object,
-            // we are going to need this later.
-            var validationParams = new TokenValidationParameters
-            {
-                ClockSkew = TimeSpan.Zero,
+            var tokenOptions = new TokenOptions(
+                Configuration["Token:Audience"],
+                Configuration["Token:Issuer"],
+                Configuration["Token:SigningKey"]);
 
-                ValidateAudience = true,
-                ValidAudience = Configuration["Token:Audience"],
-
-                ValidateIssuer = true,
-                ValidIssuer = Configuration["Token:Issuer"],
-
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Token:SigningKey"])),
-                ValidateIssuerSigningKey = true,
-
-                RequireExpirationTime = true,
-                ValidateLifetime = true
-            };
-
-            services.AddJwtAuthenticationWithProtectedCookie(validationParams);
+            services.AddJwtAuthenticationWithProtectedCookie(
+                tokenOptions);
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("RequiresAdmin", policy => policy.RequireClaim("HasAdminRights"));
+                options.AddPolicy("RequiresAdmin",
+                    policy =>
+                    policy.RequireClaim("HasAdminRights"));
             });
 
             services.AddMvc();
