@@ -1,0 +1,14 @@
+pool:
+  name: Hosted VS2017
+steps:
+- task: cake-build.cake.cake-build-task.Cake@0
+  displayName: 'Cake '
+  inputs:
+    target: Pack
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet nuget push'
+  inputs:
+    command: push
+    packagesToPush: 'artifacts/JwtAuthenticationHelper.*.nupkg'
+    publishVstsFeed: '3c06c46e-d1e4-4d1a-9d65-ecc62f2d1664'
