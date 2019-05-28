@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Security.Claims;
-using System.Text;
 using System.Threading;
 using Xunit;
 
@@ -36,8 +35,9 @@ namespace JwtAuthenticationHelpers.Tests
         public void Unprotecting_an_encrypted_ticket_converts_it_back_into_AuthTicket()
         {
             // Arrange
-            var ticketFormat = TicketFormat();
-            var token = Jwt();
+            var options = TokenOptions();
+            var ticketFormat = TicketFormat(options);
+            var token = Jwt(options);
             var encryptedString = ticketFormat.Protect(
                 new AuthenticationTicket(
                     token.ClaimsPrincipal,
@@ -142,7 +142,8 @@ namespace JwtAuthenticationHelpers.Tests
             Assert.Null(ticketFormat.Unprotect(encryptedString));
         }
 
-        private static TokenWithClaimsPrincipal Jwt(TokenOptions options = null)
+        private static TokenWithClaimsPrincipal Jwt(
+            TokenOptions options = null)
         {
             var tokenGenerator =
                 new JwtTokenGenerator(
@@ -160,20 +161,37 @@ namespace JwtAuthenticationHelpers.Tests
             return token;
         }
 
-        private static JwtAuthTicketFormat TicketFormat()
+        private static TokenOptions TokenOptions()
         {
+            var tokenOptions = new TokenOptions(
+                    "Token.WebApp.Clients",
+                    "Token.WebApp",
+                    SecurityKey());
+
+            return tokenOptions;
+        }
+
+        private static JwtAuthTicketFormat TicketFormat(
+            TokenOptions tokenOptions = null)
+        {
+            if (tokenOptions == null)
+                tokenOptions = new TokenOptions(
+                        "Token.WebApp.Clients",
+                        "Token.WebApp",
+                        SecurityKey());
+
             var ticketFormat = new JwtAuthTicketFormat(
                 new TokenValidationParameters
                 {
                     ClockSkew = TimeSpan.Zero,
 
                     ValidateAudience = true,
-                    ValidAudience = "Token.WebApp.Clients",
+                    ValidAudience = tokenOptions.Audience,
 
                     ValidateIssuer = true,
-                    ValidIssuer = "Token.WebApp",
+                    ValidIssuer = tokenOptions.Issuer,
 
-                    IssuerSigningKey = SecurityKey(),
+                    IssuerSigningKey = tokenOptions.SigningKey,
                     ValidateIssuerSigningKey = true,
 
                     RequireExpirationTime = true,
@@ -188,7 +206,9 @@ namespace JwtAuthenticationHelpers.Tests
         private static IDataProtector GetDataProtector()
         {
             var services = new ServiceCollection();
-            services.AddDataProtection(options => options.ApplicationDiscriminator = $"{nameof(TicketFormatTests)}")
+            services.AddDataProtection(
+                options => 
+                    options.ApplicationDiscriminator = $"{nameof(TicketFormatTests)}")
                 .SetApplicationName($"{nameof(TicketFormatTests)}");
 
             var dataProtector = services
@@ -201,13 +221,7 @@ namespace JwtAuthenticationHelpers.Tests
             return dataProtector;
         }
 
-        private static SymmetricSecurityKey SecurityKey()
-        {
-            var symmetricSecurityKey = new SymmetricSecurityKey(
-                Encoding.ASCII.GetBytes(
-                    "f47b558d-7654-458c-99f2-13b190ef0199"));
-
-            return symmetricSecurityKey;
-        }
+        private static string SecurityKey() => 
+            "f47b558d-7654-458c-99f2-13b190ef0199";
     }
 }

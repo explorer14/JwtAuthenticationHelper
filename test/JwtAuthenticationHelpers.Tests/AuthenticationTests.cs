@@ -1,11 +1,8 @@
 using JwtAuthenticationHelper;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using JwtAuthenticationHelper.Types;
 using Microsoft.AspNetCore.Authentication;
+using System.Linq;
+using System.Security.Claims;
 using Xunit;
 
 namespace JwtAuthenticationHelpers.Tests
@@ -19,9 +16,7 @@ namespace JwtAuthenticationHelpers.Tests
                 new TokenOptions(
                     "Me",
                     "Me2",
-                    new SymmetricSecurityKey(
-                        Encoding.ASCII.GetBytes(
-                            "abcdefghijklmnopqr12345"))));
+                    "abcdefghijklmnopqr12345"));
 
             var tcp = tokenGen.GenerateAccessTokenWithClaimsPrincipal("username@org.com",
                 new[]
