@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <Copyright>©Aman Agrawal</Copyright>
     <Authors>Aman Agrawal</Authors>
     <Company>Aman Agrawal</Company>
