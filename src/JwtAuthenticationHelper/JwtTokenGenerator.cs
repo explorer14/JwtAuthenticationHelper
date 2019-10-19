@@ -85,7 +85,8 @@ namespace JwtAuthenticationHelper
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(JwtRegisteredClaimNames.Sub, userName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.TimeOfDay.Ticks.ToString(),
+                new Claim(JwtRegisteredClaimNames.Iat, 
+                    DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                     ClaimValueTypes.Integer64)
             };
 
