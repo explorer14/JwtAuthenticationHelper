@@ -28,15 +28,17 @@ void SetUpNuget()
 		    source:feed.Source,
 		    settings:nugetSourceSettings);
 	}	
-
-	Information($"Nuget feed {feed.Source} already exists!");
+	else
+	{
+		Information($"Nuget feed {feed.Source} already exists!");
+	}
 }
 
 Task("Restore")
     .Does(() => {		
 		SetUpNuget();
 		Information("Restoring nuget packages...");
-		DotNetCoreRestore("./JwtAuthenticationHelper.sln");	
+		DotNetCoreRestore("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj");	
 });
 
 Task("Build")
