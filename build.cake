@@ -1,32 +1,41 @@
 var target = Argument("target", "PushNuGet");
+var packageFeedUrl = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json";
 
 void SetUpNuget()
 {
+	Information("Setting up Nuget feed...");
+
 	var feed = new
 	{
 		Name = "SkynetNuget",
-	    Source = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json"
+	    Source = packageFeedUrl
 	};
 
 	if (!NuGetHasSource(source:feed.Source))
 	{
+		Warning($"Nuget feed {feed.Source} not found, adding...");
 	    var nugetSourceSettings = new NuGetSourcesSettings
                              {
                                  UserName = "skynetcode",
                                  Password = EnvironmentVariable("NUGET_PAT"),
                                  Verbosity = NuGetVerbosity.Detailed
-                             };		
+                             };	
+
+		Information($"NUGET_PAT was {EnvironmentVariable("NUGET_PAT")}");
 
 		NuGetAddSource(
 		    name:feed.Name,
 		    source:feed.Source,
 		    settings:nugetSourceSettings);
 	}	
+
+	Information($"Nuget feed {feed.Source} already exists!");
 }
 
 Task("Restore")
     .Does(() => {		
 		SetUpNuget();
+		Information("Restoring nuget packages...");
 		DotNetCoreRestore("./JwtAuthenticationHelper.sln");	
 });
 
@@ -37,6 +46,7 @@ Task("Build")
 		{
 			Configuration = "Release"
 		};
+		Information("Building solution...");
         DotNetCoreBuild("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj", config);
 });
 
@@ -51,6 +61,7 @@ Task("Pack")
 			NoRestore = true
 		};
 
+		Information("Packing binaries...");
 		DotNetCorePack("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj", settings);
 });
 
@@ -59,10 +70,10 @@ Task("PushNuGet")
 	.Does(()=>{
 		var settings = new DotNetCoreNuGetPushSettings
 		{
-		    Source = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json",
+		    Source = packageFeedUrl,
 		    ApiKey = ""
 		};
-
+		Information($"Pushing the package up to the nuget feed {packageFeedUrl}...");
 		DotNetCoreNuGetPush("./artifacts/JwtAuthenticationHelper*.nupkg", settings);
 });
 
