@@ -1,6 +1,11 @@
 var target = Argument("target", "PushNuGet");
 var packageFeedUrl = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json";
 
+Setup(context =>
+{
+    SetUpNuget();
+});
+
 void SetUpNuget()
 {
 	Information("Setting up Nuget feed...");
@@ -35,8 +40,7 @@ void SetUpNuget()
 }
 
 Task("Restore")
-    .Does(() => {		
-		SetUpNuget();
+    .Does(() => {
 		Information("Restoring nuget packages...");
 		DotNetCoreRestore("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj");	
 });
