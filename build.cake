@@ -1,11 +1,6 @@
 var target = Argument("target", "PushNuGet");
 var packageFeedUrl = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json";
 
-Setup(context =>
-{
-    SetUpNuget();
-});
-
 void SetUpNuget()
 {
 	Information("Setting up Nuget feed...");
