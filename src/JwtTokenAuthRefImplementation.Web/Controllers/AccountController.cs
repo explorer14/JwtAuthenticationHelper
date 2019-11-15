@@ -44,8 +44,7 @@ namespace JwtTokenAuthRefImplementation.Web.Controllers
                 var userInfo = new UserInfo
                 {
                     FirstName = "UserFName",
-                    LastName = "UserLName",
-                    HasAdminRights = true
+                    LastName = "UserLName"
                 };
 
                 var accessTokenResult = tokenGenerator.GenerateAccessTokenWithClaimsPrincipal(
@@ -86,8 +85,7 @@ namespace JwtTokenAuthRefImplementation.Web.Controllers
             var myClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.GivenName, authenticatedUser.FirstName),
-                new Claim(ClaimTypes.Surname, authenticatedUser.LastName),
-                new Claim("HasAdminRights", authenticatedUser.HasAdminRights ? "Y" : "N")
+                new Claim(ClaimTypes.Surname, authenticatedUser.LastName)
             };
 
             return myClaims;
