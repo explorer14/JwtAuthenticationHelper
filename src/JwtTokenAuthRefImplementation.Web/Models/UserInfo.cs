@@ -4,8 +4,6 @@
     {
         public string FirstName { get; set; }
 
-        public string LastName { get; set; }
-
-        public bool HasAdminRights { get; set; }
+        public string LastName { get; set; }        
     }
 }
