@@ -69,13 +69,34 @@ Task("Pack")
 Task("PushNuGet")
 	.IsDependentOn("Pack")
 	.Does(()=>{
-		var settings = new DotNetCoreNuGetPushSettings
+		Information($"Publishing to {packageFeedUrl}...");
+		var files = GetFiles("./**/JwtAuthenticationHelper.*.nupkg");
+
+		foreach(var file in files)
 		{
-		    Source = packageFeedUrl,
-		    ApiKey = ""
-		};
-		Information($"Pushing the package up to the nuget feed {packageFeedUrl}...");
-		DotNetCoreNuGetPush("./artifacts/JwtAuthenticationHelper*.nupkg", settings);
+			Information("File: {0}", file);
+
+			using(var process = StartAndReturnProcess("dotnet", 
+				new ProcessSettings
+				{ 
+					Arguments = $"nuget push {file} --skip-duplicate -n true -s {packageFeedUrl}" 
+				}))
+			{
+				process.WaitForExit();
+				// This should output 0 as valid arguments supplied
+				var exitCode = process.GetExitCode();
+
+				if (exitCode > 0)
+					throw new InvalidOperationException($"Failed to publish to Nuget with exit code {exitCode}.");
+			}
+		}
+		// var settings = new DotNetCoreNuGetPushSettings
+		// {
+		//     Source = packageFeedUrl,
+		//     ApiKey = ""
+		// };
+		// Information($"Pushing the package up to the nuget feed {packageFeedUrl}...");
+		// DotNetCoreNuGetPush("./artifacts/JwtAuthenticationHelper*.nupkg", settings);
 });
 
 RunTarget(target);
