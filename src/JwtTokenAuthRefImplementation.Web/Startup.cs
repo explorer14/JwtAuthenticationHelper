@@ -1,5 +1,5 @@
-﻿using JwtAuthenticationHelper.Extensions;
-using JwtAuthenticationHelper.Types;
+﻿using JwtGenerator.Types;
+using JwtGenerator.ServiceCollection.Extensions.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

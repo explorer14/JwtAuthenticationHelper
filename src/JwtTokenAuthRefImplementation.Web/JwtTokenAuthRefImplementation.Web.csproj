@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JwtAuthenticationHelper\JwtAuthenticationHelper.csproj" />
+    <ProjectReference Include="..\JwtGenerator.ServiceCollection.Extensions.Cookies\JwtGenerator.ServiceCollection.Extensions.Cookies.csproj" />
   </ItemGroup>
 
 </Project>
