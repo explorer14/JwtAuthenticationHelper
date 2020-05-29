@@ -71,6 +71,7 @@ Task("PushToNuGet")
 	.Does(()=>{
 		Information($"Publishing to {packageFeedUrl}...");
 		var files = GetFiles("./**/JwtAuthenticationHelper.*.nupkg");
+		var pat = EnvironmentVariable("NUGET_PAT");
 
 		foreach(var file in files)
 		{
@@ -79,7 +80,7 @@ Task("PushToNuGet")
 			using(var process = StartAndReturnProcess("dotnet", 
 				new ProcessSettings
 				{ 
-					Arguments = $"nuget push {file} --skip-duplicate -n true -s {packageFeedUrl}" 
+					Arguments = $"nuget push {file} --skip-duplicate -n true -s {packageFeedUrl} -k {pat}" 
 				}))
 			{
 				process.WaitForExit();
