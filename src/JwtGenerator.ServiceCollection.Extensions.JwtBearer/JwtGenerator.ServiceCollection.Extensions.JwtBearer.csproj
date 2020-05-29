@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <Copyright>©Aman Agrawal</Copyright>
+    <Authors>Aman Agrawal</Authors>
+    <Company>Aman Agrawal</Company>
+    <Description>IServiceCollection extension for using JWT with Web APIs for JWT Bearer authentication</Description>
+    <PackageTags>authentication, jwt, json web token, token based authentication, identity, asp.net core, claims principal, extensible, web api</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\JwtGenerator.ServiceCollection.Extensions.JwtBearer.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\JwtGenerator\JwtGenerator.csproj" />
+  </ItemGroup>
+
+</Project>

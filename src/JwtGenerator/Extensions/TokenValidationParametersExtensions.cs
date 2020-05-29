@@ -6,7 +6,7 @@ namespace JwtGenerator.Extensions
 {
     public static class TokenValidationParametersExtensions
     {
-        internal static TokenValidationParameters ToTokenValidationParams(
+        public static TokenValidationParameters ToTokenValidationParams(
             this TokenOptions tokenOptions) =>
             new TokenValidationParameters
             {
