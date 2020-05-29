@@ -36,6 +36,7 @@ void SetUpNuget()
 
 Task("Restore")
     .Does(() => {
+		SetUpNuget();
 		Information("Restoring nuget packages...");
 		DotNetCoreRestore("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj");	
 });
@@ -70,8 +71,7 @@ Task("PushToNuGet")
 	.IsDependentOn("Pack")
 	.Does(()=>{
 		Information($"Publishing to {packageFeedUrl}...");
-		var files = GetFiles("./**/JwtAuthenticationHelper.*.nupkg");
-		var pat = EnvironmentVariable("NUGET_PAT");
+		var files = GetFiles("./**/JwtAuthenticationHelper.*.nupkg");		
 
 		foreach(var file in files)
 		{
@@ -80,7 +80,7 @@ Task("PushToNuGet")
 			using(var process = StartAndReturnProcess("dotnet", 
 				new ProcessSettings
 				{ 
-					Arguments = $"nuget push {file} --skip-duplicate -n true -s {packageFeedUrl} -k {pat}" 
+					Arguments = $"nuget push {file} --skip-duplicate -n true -s {packageFeedUrl} -k bla" 
 				}))
 			{
 				process.WaitForExit();
@@ -94,7 +94,9 @@ Task("PushToNuGet")
 		// var settings = new DotNetCoreNuGetPushSettings
 		// {
 		//     Source = packageFeedUrl,
-		//     ApiKey = ""
+		//     ApiKey = "",
+		// 	IgnoreSymbols = true,
+		// 	ArgumentCustomization = args=>args.Append("-n true")			
 		// };
 		// Information($"Pushing the package up to the nuget feed {packageFeedUrl}...");
 		// DotNetCoreNuGetPush("./artifacts/JwtAuthenticationHelper*.nupkg", settings);
