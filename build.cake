@@ -66,7 +66,7 @@ Task("Pack")
 		DotNetCorePack("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj", settings);
 });
 
-Task("PushNuGet")
+Task("PushToNuGet")
 	.IsDependentOn("Pack")
 	.Does(()=>{
 		Information($"Publishing to {packageFeedUrl}...");
