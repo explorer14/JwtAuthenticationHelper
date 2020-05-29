@@ -1,5 +1,5 @@
-using JwtAuthenticationHelper;
-using JwtAuthenticationHelper.Types;
+using JwtGenerator;
+using JwtGenerator.Types;
 using Microsoft.AspNetCore.Authentication;
 using System.Linq;
 using System.Security.Claims;
@@ -7,10 +7,10 @@ using Xunit;
 
 namespace JwtAuthenticationHelpers.Tests
 {
-    public class AuthenticationTests
+    public class JwtGenerationTests
     {
-        [Fact(DisplayName = "Can generate token with claims principal given user claims")]
-        public void Test2()
+        [Fact]
+        public void ShouldGenerateJWTWithClaimsPrincipalsAndOptionalClaims()
         {
             var tokenGen = new JwtTokenGenerator(
                 new TokenOptions(
