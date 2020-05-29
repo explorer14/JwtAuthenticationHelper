@@ -9,10 +9,10 @@
     <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="wwwroot\**" />
-  </ItemGroup>    
+  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JwtAuthenticationHelper\JwtAuthenticationHelper.csproj" />
+    <ProjectReference Include="..\JwtGenerator.ServiceCollection.Extensions.JwtBearer\JwtGenerator.ServiceCollection.Extensions.JwtBearer.csproj" />
   </ItemGroup>
 
 </Project>
