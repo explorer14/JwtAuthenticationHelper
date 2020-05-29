@@ -1,5 +1,9 @@
 var target = Argument("target", "PushNuGet");
 var packageFeedUrl = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json";
+var solutionFilePath = "./JwtAuthenticationHelper.sln";
+var coreLibPath = "./src/JwtGenerator/JwtGenerator.csproj";
+var cookieExtensionLibPath = "./src/JwtGenerator.ServiceCollection.Extensions.Cookies/JwtGenerator.ServiceCollection.Extensions.Cookies.csproj";
+var jwtExtensionLibPath = "./src/JwtGenerator.ServiceCollection.Extensions.JwtBearer/JwtGenerator.ServiceCollection.Extensions.JwtBearer.csproj";
 
 void SetUpNuget()
 {
@@ -38,7 +42,7 @@ Task("Restore")
     .Does(() => {
 		SetUpNuget();
 		Information("Restoring nuget packages...");
-		DotNetCoreRestore("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj");	
+		DotNetCoreRestore(solutionFilePath);	
 });
 
 Task("Build")
@@ -49,7 +53,7 @@ Task("Build")
 			Configuration = "Release"
 		};
 		Information("Building solution...");
-        DotNetCoreBuild("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj", config);
+        DotNetCoreBuild(solutionFilePath, config);
 });
 
 Task("Pack")
@@ -64,14 +68,16 @@ Task("Pack")
 		};
 
 		Information("Packing binaries...");
-		DotNetCorePack("./src/JwtAuthenticationHelper/JwtAuthenticationHelper.csproj", settings);
+		DotNetCorePack(coreLibPath, settings);
+		DotNetCorePack(cookieExtensionLibPath, settings);
+		DotNetCorePack(jwtExtensionLibPath, settings);
 });
 
 Task("PushToNuGet")
 	.IsDependentOn("Pack")
 	.Does(()=>{
 		Information($"Publishing to {packageFeedUrl}...");
-		var files = GetFiles("./**/JwtAuthenticationHelper.*.nupkg");		
+		var files = GetFiles("./artifacts/**/*.*.nupkg");		
 
 		foreach(var file in files)
 		{
@@ -91,15 +97,6 @@ Task("PushToNuGet")
 					throw new InvalidOperationException($"Failed to publish to Nuget with exit code {exitCode}.");
 			}
 		}
-		// var settings = new DotNetCoreNuGetPushSettings
-		// {
-		//     Source = packageFeedUrl,
-		//     ApiKey = "",
-		// 	IgnoreSymbols = true,
-		// 	ArgumentCustomization = args=>args.Append("-n true")			
-		// };
-		// Information($"Pushing the package up to the nuget feed {packageFeedUrl}...");
-		// DotNetCoreNuGetPush("./artifacts/JwtAuthenticationHelper*.nupkg", settings);
 });
 
 RunTarget(target);
