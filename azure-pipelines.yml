@@ -9,7 +9,7 @@ variables:
     
 steps:
   - task: Cake@0
-  inputs:
-    script: 'build.cake'
-    target: 'PushToNuget'
-    verbosity: 'Verbose'
+    inputs:
+      script: 'build.cake'
+      target: 'PushToNuget'
+      verbosity: 'Verbose'
