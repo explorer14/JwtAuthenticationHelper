@@ -43,14 +43,17 @@ namespace JwtTokenAuthRefImplementation.Web.Controllers
                 var userInfo = new UserInfo
                 {
                     FirstName = "UserFName",
-                    LastName = "UserLName"
+                    LastName = "UserLName",
+                    Role = Role.PLANNING_HEAD
                 };
 
                 var accessTokenResult = tokenGenerator.GenerateAccessTokenWithClaimsPrincipal(
                     userCredentials.Username,
                     AddMyClaims(userInfo));
+
                 await HttpContext.SignInAsync(accessTokenResult.ClaimsPrincipal,
                     accessTokenResult.AuthProperties);
+
                 returnTo = returnUrl;
             }
 
@@ -81,11 +84,19 @@ namespace JwtTokenAuthRefImplementation.Web.Controllers
 
         private static IEnumerable<Claim> AddMyClaims(UserInfo authenticatedUser)
         {
+            Claim adminClaim = default;
+
+            if (authenticatedUser.HasAdminAccess)
+                adminClaim = new Claim("HasAdminRights", "true");
+
             var myClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.GivenName, authenticatedUser.FirstName),
                 new Claim(ClaimTypes.Surname, authenticatedUser.LastName)
             };
+
+            if (adminClaim!=null)
+                myClaims.Add(adminClaim);
 
             return myClaims;
         }
