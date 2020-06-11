@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using System;
 using System.Security.Claims;
 
 namespace JwtAuthenticationHelper.Types
