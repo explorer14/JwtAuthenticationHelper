@@ -10,6 +10,7 @@ using System.Security.Claims;
 
 namespace JwtAuthenticationHelper
 {
+    [Obsolete("Please use the JwtGenerator in combination with Cookies or JwtBearer extension packages. This project will be removed")]
     /// <summary>
     /// A generic Json Web Token generator for use with token based authentication in web applications
     /// </summary>

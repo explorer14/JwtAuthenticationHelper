@@ -4,6 +4,7 @@ using System.Text;
 
 namespace JwtAuthenticationHelper.Types
 {
+    [Obsolete("Please use the JwtGenerator in combination with Cookies or JwtBearer extension packages. This project will be removed")]
     /// <summary>
     /// A structure containting the various options required
     /// to generate a valid Json Web Token

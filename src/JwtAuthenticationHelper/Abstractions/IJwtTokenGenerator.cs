@@ -4,6 +4,7 @@ using System.Security.Claims;
 
 namespace JwtAuthenticationHelper.Abstractions
 {
+    [Obsolete("Please use the JwtGenerator in combination with Cookies or JwtBearer extension packages. This project will be removed")]
     public interface IJwtTokenGenerator
     {
         /// <summary>
