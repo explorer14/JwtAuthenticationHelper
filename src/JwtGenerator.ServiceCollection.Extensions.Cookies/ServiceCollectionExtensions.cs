@@ -4,9 +4,9 @@ using JwtGenerator.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 
 namespace JwtGenerator.ServiceCollection.Extensions.Cookies
@@ -27,7 +27,7 @@ namespace JwtGenerator.ServiceCollection.Extensions.Cookies
             }
 
             var hostingEnvironment = services.BuildServiceProvider()
-                .GetService<IHostingEnvironment>();
+                .GetService<IHostEnvironment>();
             // The JwtAuthTicketFormat representing the cookie needs an IDataProtector and
             // IDataSerialiser to correctly encrypt/decrypt and serialise/deserialise the payload
             // respectively. This requirement is enforced by ISecureDataFormat interface in ASP.NET
@@ -37,11 +37,12 @@ namespace JwtGenerator.ServiceCollection.Extensions.Cookies
             //     cookieless auth (such as with a Web API) the data protection and serialisation
             //     dependencies won't be needed. You simply need to set the validation params and add
             //     the token generator dependencies and use the right authentication extension below.
+
+            var applicationName = $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}";
+
             services.AddDataProtection(options =>
-            options.ApplicationDiscriminator =
-                $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}")
-                .SetApplicationName(
-                $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}");
+                        options.ApplicationDiscriminator = applicationName)
+                    .SetApplicationName(applicationName);
 
             services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
@@ -68,7 +69,7 @@ namespace JwtGenerator.ServiceCollection.Extensions.Cookies
                 // Perhaps in the future I can add some kind of hooks in the token generator that can
                 // let the referencing application know that the token has expired and the developer
                 // can then request a new token without the user having to re-login.
-                options.Cookie.Expiration = TimeSpan.FromMinutes(1);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(tokenOptions.TokenExpiryInMinutes);
 
                 // Specify the TicketDataFormat to use to validate/create the ASP.NET authentication
                 // ticket. Its important that the same validation parameters are passed to this class
@@ -85,7 +86,7 @@ namespace JwtGenerator.ServiceCollection.Extensions.Cookies
                     services.BuildServiceProvider()
                         .GetDataProtector(new[]
                         {
-                            $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}-Auth1"
+                            $"{applicationName}-Auth1"
                         }));
 
                 options.LoginPath = authUrlOptions != null ?
@@ -99,7 +100,7 @@ namespace JwtGenerator.ServiceCollection.Extensions.Cookies
             });
 
             return services;
-        }        
+        }
     }
 
     /// <summary>
