@@ -1,15 +1,16 @@
-﻿using JwtAuthenticationHelper.Extensions;
-using JwtAuthenticationHelper.Types;
+﻿using JwtGenerator.Types;
+using JwtGenerator.ServiceCollection.Extensions.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace JwtTokenAuthRefImplementation.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -37,12 +38,11 @@ namespace JwtTokenAuthRefImplementation.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
@@ -52,12 +52,12 @@ namespace JwtTokenAuthRefImplementation.Web
             app.UseStaticFiles();
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(ep => 
+                ep.MapControllerRoute(
+                    "default", 
+                    "{controller=Home}/{action=Index}/{id?}"));
         }
     }
 }

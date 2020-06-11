@@ -1,13 +1,12 @@
-﻿using JwtAuthenticationHelper.Types;
+﻿using JwtGenerator.Types;
 using Microsoft.IdentityModel.Tokens;
 using System;
 
-namespace JwtAuthenticationHelper.Extensions
+namespace JwtGenerator.Extensions
 {
-    [Obsolete("Please use the JwtGenerator in combination with Cookies or JwtBearer extension packages. This project will be removed")]
     public static class TokenValidationParametersExtensions
     {
-        internal static TokenValidationParameters ToTokenValidationParams(
+        public static TokenValidationParameters ToTokenValidationParams(
             this TokenOptions tokenOptions) =>
             new TokenValidationParameters
             {

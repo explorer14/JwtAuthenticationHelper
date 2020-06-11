@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace JwtAuthenticationHelper
+namespace JwtGenerator
 {
-    [Obsolete("Please use the JwtGenerator in combination with Cookies or JwtBearer extension packages. This project will be removed")]
     public sealed class ClaimsPrincipalFactory
     {
         /// <summary>
@@ -16,7 +14,10 @@ namespace JwtAuthenticationHelper
         /// <param name="authenticationType">This could be any string. Defaults to "Password"</param>
         /// <param name="roleType">This could be any string. Defaults to "Recipient"</param>
         /// <returns>An instance of <see cref="ClaimsPrincipal"/> with the claims embedded</returns>
-        public static ClaimsPrincipal CreatePrincipal(IEnumerable<Claim> claims, string authenticationType = null, string roleType = null)
+        public static ClaimsPrincipal CreatePrincipal(
+            IEnumerable<Claim> claims, 
+            string authenticationType = null, 
+            string roleType = null)
         {
             var claimsPrincipal = new ClaimsPrincipal();
             claimsPrincipal.AddIdentity(new ClaimsIdentity(claims,

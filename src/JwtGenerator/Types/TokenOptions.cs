@@ -2,41 +2,14 @@
 using System;
 using System.Text;
 
-namespace JwtAuthenticationHelper.Types
+namespace JwtGenerator.Types
 {
-    [Obsolete("Please use the JwtGenerator in combination with Cookies or JwtBearer extension packages. This project will be removed")]
     /// <summary>
     /// A structure containting the various options required
     /// to generate a valid Json Web Token
     /// </summary>
     public sealed class TokenOptions
     {
-        [Obsolete("Use the overload that accepts a string signing key")]
-        internal TokenOptions(string issuer,
-                            string audience,
-                            SecurityKey signingKey,
-                            int tokenExpiryInMinutes = 5)
-        {
-            if (string.IsNullOrWhiteSpace(audience))
-            {
-                throw new ArgumentNullException(
-                    $"{nameof(Audience)} is mandatory in order to generate a JWT!");
-            }
-
-            if (string.IsNullOrWhiteSpace(issuer))
-            {
-                throw new ArgumentNullException(
-                    $"{nameof(Issuer)} is mandatory in order to generate a JWT!");
-            }
-
-            Audience = audience;
-            Issuer = issuer;
-            SigningKey = signingKey ??
-                throw new ArgumentNullException(
-                    $"{nameof(SigningKey)} is mandatory in order to generate a JWT!");
-            TokenExpiryInMinutes = tokenExpiryInMinutes;
-        }
-
         /// <summary>
         /// Creates a new instance of <see cref="TokenOptions"/>
         /// </summary>
@@ -59,13 +32,27 @@ namespace JwtAuthenticationHelper.Types
                             string audience,
                             string rawSigningKey,
                             int tokenExpiryInMinutes = 5)
-            : this(issuer,
-                  audience,
-                  new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(
-                        rawSigningKey)),
-                  tokenExpiryInMinutes)
         {
+            if (string.IsNullOrWhiteSpace(audience))
+            {
+                throw new ArgumentNullException(
+                    $"{nameof(Audience)} is mandatory in order to generate a JWT!");
+            }
+
+            if (string.IsNullOrWhiteSpace(issuer))
+            {
+                throw new ArgumentNullException(
+                    $"{nameof(Issuer)} is mandatory in order to generate a JWT!");
+            }
+
+            Audience = audience;
+            Issuer = issuer;
+            SigningKey = new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(rawSigningKey)) ??
+                throw new ArgumentNullException(
+                    $"{nameof(SigningKey)} is mandatory in order to generate a JWT!");
+
+            TokenExpiryInMinutes = tokenExpiryInMinutes;
         }
 
         public SecurityKey SigningKey { get; }

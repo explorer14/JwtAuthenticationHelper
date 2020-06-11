@@ -1,13 +1,9 @@
-﻿using System;
+﻿using JwtGenerator.Abstractions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using JwtAuthenticationHelper.Abstractions;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace JwtTokenAuthRefImplementation.API.Controllers
 {
@@ -25,7 +21,7 @@ namespace JwtTokenAuthRefImplementation.API.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody]UserCredentials userCredentials)
+        public async Task<IActionResult> Login([FromBody] UserCredentials userCredentials)
         {
             // Replace this with your custom authentication logic which will
             // securely return the authenticated user's details including
@@ -55,7 +51,8 @@ namespace JwtTokenAuthRefImplementation.API.Controllers
             var myClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.GivenName, authenticatedUser.FirstName),
-                new Claim(ClaimTypes.Surname, authenticatedUser.LastName)
+                new Claim(ClaimTypes.Surname, authenticatedUser.LastName),
+                new Claim("HasAdminRights", "bla")
             };
 
             return myClaims;
@@ -65,7 +62,7 @@ namespace JwtTokenAuthRefImplementation.API.Controllers
     internal class UserInfo
     {
         public string FirstName { get; set; }
-        public string LastName { get; set; }     
+        public string LastName { get; set; }
     }
 
     public class UserCredentials

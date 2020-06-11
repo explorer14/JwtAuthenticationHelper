@@ -1,5 +1,5 @@
-﻿using JwtAuthenticationHelper.Abstractions;
-using JwtAuthenticationHelper.Types;
+﻿using JwtGenerator.Abstractions;
+using JwtGenerator.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,9 +8,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 
-namespace JwtAuthenticationHelper
+namespace JwtGenerator
 {
-    [Obsolete("Please use the JwtGenerator in combination with Cookies or JwtBearer extension packages. This project will be removed")]
     /// <summary>
     /// A generic Json Web Token generator for use with token based authentication in web applications
     /// </summary>
@@ -32,14 +31,14 @@ namespace JwtAuthenticationHelper
 
         public string GenerateAccessToken(string userName, IEnumerable<Claim> userClaims)
         {
-            var expiration = TimeSpan.FromMinutes(this.tokenOptions.TokenExpiryInMinutes);
-            var jwt = new JwtSecurityToken(issuer: this.tokenOptions.Issuer,
-                                           audience: this.tokenOptions.Audience,
+            var expiration = TimeSpan.FromMinutes(tokenOptions.TokenExpiryInMinutes);
+            var jwt = new JwtSecurityToken(issuer: tokenOptions.Issuer,
+                                           audience: tokenOptions.Audience,
                                            claims: MergeUserClaimsWithDefaultClaims(userName, userClaims),
                                            notBefore: DateTime.UtcNow,
                                            expires: DateTime.UtcNow.Add(expiration),
                                            signingCredentials: new SigningCredentials(
-                                               this.tokenOptions.SigningKey,
+                                               tokenOptions.SigningKey,
                                                SecurityAlgorithms.HmacSha256));
 
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
@@ -51,7 +50,7 @@ namespace JwtAuthenticationHelper
             IEnumerable<Claim> userClaims)
         {
             var userClaimList = userClaims.ToList();
-            var accessToken = this.GenerateAccessToken(userName, userClaimList);
+            var accessToken = GenerateAccessToken(userName, userClaimList);
 
             return new TokenWithClaimsPrincipal()
             {
@@ -86,7 +85,7 @@ namespace JwtAuthenticationHelper
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(JwtRegisteredClaimNames.Sub, userName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, 
+                new Claim(JwtRegisteredClaimNames.Iat,
                     DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                     ClaimValueTypes.Integer64)
             };

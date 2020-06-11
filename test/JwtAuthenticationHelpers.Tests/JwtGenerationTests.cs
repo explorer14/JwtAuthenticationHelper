@@ -7,10 +7,10 @@ using Xunit;
 
 namespace JwtAuthenticationHelpers.Tests
 {
-    public class AuthenticationTests
+    public class JwtGenerationTests
     {
-        [Fact(DisplayName = "Can generate token with claims principal given user claims")]
-        public void Test2()
+        [Fact]
+        public void ShouldGenerateJWTWithClaimsPrincipalsAndOptionalClaims()
         {
             var tokenGen = new JwtTokenGenerator(
                 new TokenOptions(

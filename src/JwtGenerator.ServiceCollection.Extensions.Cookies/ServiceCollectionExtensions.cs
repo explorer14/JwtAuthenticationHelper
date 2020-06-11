@@ -1,20 +1,16 @@
-﻿using JwtAuthenticationHelper.Abstractions;
-using JwtAuthenticationHelper.Types;
+﻿using JwtGenerator.Abstractions;
+using JwtGenerator.Extensions;
+using JwtGenerator.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 
-namespace JwtAuthenticationHelper.Extensions
+namespace JwtGenerator.ServiceCollection.Extensions.Cookies
 {
-    [Obsolete("Please use the JwtGenerator in combination with Cookies or JwtBearer extension packages. This project will be removed")]
-    /// <summary>
-    /// Simple extension class to encapsulate data protection and cookie auth boilerplate.
-    /// </summary>
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddJwtAuthenticationWithProtectedCookie(
@@ -31,7 +27,7 @@ namespace JwtAuthenticationHelper.Extensions
             }
 
             var hostingEnvironment = services.BuildServiceProvider()
-                .GetService<IHostingEnvironment>();
+                .GetService<IHostEnvironment>();
             // The JwtAuthTicketFormat representing the cookie needs an IDataProtector and
             // IDataSerialiser to correctly encrypt/decrypt and serialise/deserialise the payload
             // respectively. This requirement is enforced by ISecureDataFormat interface in ASP.NET
@@ -41,11 +37,12 @@ namespace JwtAuthenticationHelper.Extensions
             //     cookieless auth (such as with a Web API) the data protection and serialisation
             //     dependencies won't be needed. You simply need to set the validation params and add
             //     the token generator dependencies and use the right authentication extension below.
+
+            var applicationName = $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}";
+
             services.AddDataProtection(options =>
-            options.ApplicationDiscriminator =
-                $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}")
-                .SetApplicationName(
-                $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}");
+                        options.ApplicationDiscriminator = applicationName)
+                    .SetApplicationName(applicationName);
 
             services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
@@ -72,7 +69,7 @@ namespace JwtAuthenticationHelper.Extensions
                 // Perhaps in the future I can add some kind of hooks in the token generator that can
                 // let the referencing application know that the token has expired and the developer
                 // can then request a new token without the user having to re-login.
-                options.Cookie.Expiration = TimeSpan.FromMinutes(1);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(tokenOptions.TokenExpiryInMinutes);
 
                 // Specify the TicketDataFormat to use to validate/create the ASP.NET authentication
                 // ticket. Its important that the same validation parameters are passed to this class
@@ -89,7 +86,7 @@ namespace JwtAuthenticationHelper.Extensions
                     services.BuildServiceProvider()
                         .GetDataProtector(new[]
                         {
-                            $"{applicationDiscriminator ?? hostingEnvironment.ApplicationName}-Auth1"
+                            $"{applicationName}-Auth1"
                         }));
 
                 options.LoginPath = authUrlOptions != null ?
@@ -100,39 +97,6 @@ namespace JwtAuthenticationHelper.Extensions
                     : new PathString("/Account/Logout");
                 options.AccessDeniedPath = options.LoginPath;
                 options.ReturnUrlParameter = authUrlOptions?.ReturnUrlParameter ?? "returnUrl";
-            });
-
-            return services;
-        }
-
-        public static IServiceCollection AddJwtAuthenticationForAPI(
-            this IServiceCollection services,
-            TokenOptions tokenOptions)
-        {
-            if (tokenOptions == null)
-            {
-                throw new ArgumentNullException(
-                    $"{nameof(tokenOptions)} is a required parameter. " +
-                    $"Please make sure you've provided a valid instance with the appropriate values configured.");
-            }
-
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>(serviceProvider =>
-                new JwtTokenGenerator(tokenOptions));
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme =
-                    JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme =
-                    JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme =
-                    JwtBearerDefaults.AuthenticationScheme;
-            }).
-            AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            {
-                options.SaveToken = true;
-                options.TokenValidationParameters =
-                tokenOptions.ToTokenValidationParams();
             });
 
             return services;
