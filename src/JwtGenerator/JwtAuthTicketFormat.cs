@@ -64,16 +64,17 @@ namespace JwtGenerator
         /// <returns></returns>
         public AuthenticationTicket Unprotect(string protectedText, string purpose)
         {
-            var authTicket = ticketSerializer.Deserialize(
-                dataProtector.Unprotect(
-                    Base64UrlTextEncoder.Decode(protectedText)));
-
-            var embeddedJwt = authTicket
-                .Properties?
-                .GetTokenValue(TokenConstants.TokenName);
+            var authTicket = default(AuthenticationTicket);
 
             try
             {
+                authTicket = ticketSerializer.Deserialize(
+                dataProtector.Unprotect(
+                    Base64UrlTextEncoder.Decode(protectedText)));
+
+                var embeddedJwt = authTicket
+                    .Properties?
+                    .GetTokenValue(TokenConstants.TokenName);
                 new JwtSecurityTokenHandler()
                     .ValidateToken(embeddedJwt, validationParameters, out var token);
 
