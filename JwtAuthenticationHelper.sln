@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthenticationHelper", "src\JwtAuthenticationHelper\JwtAuthenticationHelper.csproj", "{031FC838-6C97-4463-8564-751A132366C3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthenticationHelpers.Tests", "test\JwtAuthenticationHelpers.Tests\JwtAuthenticationHelpers.Tests.csproj", "{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtTokenAuthRefImplementation.Web", "src\JwtTokenAuthRefImplementation.Web\JwtTokenAuthRefImplementation.Web.csproj", "{7FA98FBA-EB33-44E4-B779-982DE00A6C30}"
@@ -36,10 +34,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{031FC838-6C97-4463-8564-751A132366C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{031FC838-6C97-4463-8564-751A132366C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{031FC838-6C97-4463-8564-751A132366C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{031FC838-6C97-4463-8564-751A132366C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,7 +67,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{031FC838-6C97-4463-8564-751A132366C3} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
 		{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01} = {92484A1B-6DDC-45D4-A85F-04E8602ED995}
 		{7FA98FBA-EB33-44E4-B779-982DE00A6C30} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
 		{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
