@@ -21,11 +21,9 @@ void SetUpNuget()
 	    var nugetSourceSettings = new NuGetSourcesSettings
                              {
                                  UserName = "skynetcode",
-                                 Password = EnvironmentVariable("NUGET_PAT"),
+                                 Password = EnvironmentVariable("SYSTEM_ACCESSTOKEN"),
                                  Verbosity = NuGetVerbosity.Detailed
-                             };	
-
-		Information($"NUGET_PAT was {EnvironmentVariable("NUGET_PAT")}");
+                             };			
 
 		NuGetAddSource(
 		    name:feed.Name,
