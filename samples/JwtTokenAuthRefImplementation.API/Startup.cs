@@ -1,5 +1,5 @@
-﻿using JwtGenerator.ServiceCollection.Extensions.JwtBearer;
-using JwtHelper.Core.Types;
+﻿using JwtHelper.Core.Types;
+using JwtHelper.ServiceCollection.Extensions.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

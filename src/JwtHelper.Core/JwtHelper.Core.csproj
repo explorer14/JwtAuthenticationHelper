@@ -3,11 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>5.1.0</Version>
+    <Version>1.0.0-preview1</Version>
     <Copyright>©Aman Agrawal</Copyright>
-    <Authors>Aman Agrawal</Authors>
-    <Company>Aman Agrawal</Company>
-    <Description>A simple Json Web Token generation library that allows you to generate access tokens. These tokens can then be used in web apps</Description>
+    <Authors>Aman Agrawal</Authors>    
+    <Description>A simple Json Web Token generation and validation library for ASP.NET Core.</Description>
     <PackageTags>authentication, jwt, json web token, token based authentication, identity, asp.net core, claims principal, extensible, web api</PackageTags>
   </PropertyGroup>
 

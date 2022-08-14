@@ -20,9 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtHelper.Core", "src\JwtHelper.Core\JwtHelper.Core.csproj", "{56991141-69FA-4D26-BB13-9EA3BF0A2E21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtGenerator.ServiceCollection.Extensions.JwtBearer", "src\JwtGenerator.ServiceCollection.Extensions.JwtBearer\JwtGenerator.ServiceCollection.Extensions.JwtBearer.csproj", "{A57765BC-0206-41E6-8EBF-54C6D5C9736F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtHelper.ServiceCollection.Extensions.JwtBearer", "src\JwtHelper.ServiceCollection.Extensions.JwtBearer\JwtHelper.ServiceCollection.Extensions.JwtBearer.csproj", "{A57765BC-0206-41E6-8EBF-54C6D5C9736F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtGenerator.ServiceCollection.Extensions.Cookies", "src\JwtGenerator.ServiceCollection.Extensions.Cookies\JwtGenerator.ServiceCollection.Extensions.Cookies.csproj", "{E329C375-F076-4704-8E71-BD017FA34469}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtHelper.ServiceCollection.Extensions.Cookies", "src\JwtHelper.ServiceCollection.Extensions.Cookies\JwtHelper.ServiceCollection.Extensions.Cookies.csproj", "{E329C375-F076-4704-8E71-BD017FA34469}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthWithCookie.Web3.1", "samples\JwtAuthWithCookie.Web3.1\JwtAuthWithCookie.Web3.1.csproj", "{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF}"
 EndProject

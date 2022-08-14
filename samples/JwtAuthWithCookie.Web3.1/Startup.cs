@@ -1,5 +1,5 @@
-using JwtGenerator.ServiceCollection.Extensions.Cookies;
 using JwtHelper.Core.Types;
+using JwtHelper.ServiceCollection.Extensions.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

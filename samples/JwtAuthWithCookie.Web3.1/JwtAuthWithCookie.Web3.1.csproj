@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\JwtGenerator.ServiceCollection.Extensions.Cookies\JwtGenerator.ServiceCollection.Extensions.Cookies.csproj" />
+    <ProjectReference Include="..\..\src\JwtHelper.ServiceCollection.Extensions.Cookies\JwtHelper.ServiceCollection.Extensions.Cookies.csproj" />
   </ItemGroup>
 
 </Project>

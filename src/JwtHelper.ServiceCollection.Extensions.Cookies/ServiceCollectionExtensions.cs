@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
-namespace JwtGenerator.ServiceCollection.Extensions.Cookies
+namespace JwtHelper.ServiceCollection.Extensions.Cookies
 {
     public static class ServiceCollectionExtensions
     {

@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace JwtGenerator.ServiceCollection.Extensions.JwtBearer
+namespace JwtHelper.ServiceCollection.Extensions.JwtBearer
 {
     /// <summary>
-    /// Simple extension class to encapsulate data protection and cookie auth boilerplate.
+    ///   Simple extension class to encapsulate data protection and cookie auth boilerplate.
     /// </summary>
     public static class ServiceCollectionExtensions
-    {       
+    {
         public static IServiceCollection AddJwtAuthenticationForAPI(
             this IServiceCollection services,
             TokenOptions tokenOptions)
