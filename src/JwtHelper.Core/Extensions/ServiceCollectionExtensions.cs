@@ -9,7 +9,8 @@ namespace JwtHelper.Core.Extensions
         public static IServiceCollection AddJwtHelper(
             this IServiceCollection services, TokenOptions tokenOptions) =>
             services.AddTransient<IJwtTokenGenerator>(_ =>
-                    new DefaultJwtTokenGenerator(tokenOptions))
-                .AddTransient<IJwtTokenValidator, DefaultJwtTokenValidator>();
+                        new DefaultJwtTokenGenerator(tokenOptions))
+                    .AddTransient<IJwtTokenValidator, DefaultJwtTokenValidator>()
+                    .AddSingleton(tokenOptions);
     }
 }
