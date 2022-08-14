@@ -2,6 +2,7 @@
 using JwtHelper.Core.Abstractions;
 using JwtHelper.Core.Types;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 
 namespace VanillaJwtUsage.Api.Controllers
@@ -39,7 +40,7 @@ namespace VanillaJwtUsage.Api.Controllers
         {
             var result = jwtTokenValidator.Validate(jwt, tokenOptions);
 
-            var issuedAtClaim = JwtClaimsParser.GetClaims(jwt).GetClaimValueForType("nbf");
+            var issuedAtClaim = JwtClaimsParser.GetClaims(jwt).GetClaimValueForType(JwtRegisteredClaimNames.Nbf);
             var requestIdClaim = JwtClaimsParser.GetClaims(jwt).GetClaimValueForType("RequestId");
 
             return Ok(new { ValidationResult = result, NotBefore = issuedAtClaim, RequestId = requestIdClaim });
