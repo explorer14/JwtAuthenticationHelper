@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthenticationHelpers.Tests", "test\JwtAuthenticationHelpers.Tests\JwtAuthenticationHelpers.Tests.csproj", "{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtTokenAuthRefImplementation.API", "src\JwtTokenAuthRefImplementation.API\JwtTokenAuthRefImplementation.API.csproj", "{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtTokenAuthRefImplementation.API", "samples\JwtTokenAuthRefImplementation.API\JwtTokenAuthRefImplementation.API.csproj", "{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{322D3861-C9D8-4018-AA2C-54258E36D5A4}"
 EndProject
@@ -24,7 +24,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtGenerator.ServiceCollect
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtGenerator.ServiceCollection.Extensions.Cookies", "src\JwtGenerator.ServiceCollection.Extensions.Cookies\JwtGenerator.ServiceCollection.Extensions.Cookies.csproj", "{E329C375-F076-4704-8E71-BD017FA34469}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthWithCookie.Web3.1", "src\JwtAuthWithCookie.Web3.1\JwtAuthWithCookie.Web3.1.csproj", "{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthWithCookie.Web3.1", "samples\JwtAuthWithCookie.Web3.1\JwtAuthWithCookie.Web3.1.csproj", "{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{DB61D0DF-134B-4CC3-91FC-2063F48527E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,11 +64,11 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6446CCCD-4EE2-4049-AD4B-7D82A3A00D01} = {92484A1B-6DDC-45D4-A85F-04E8602ED995}
-		{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
+		{1CD67DFB-9CF2-4BBF-87B5-FFCFBE16E7B1} = {DB61D0DF-134B-4CC3-91FC-2063F48527E4}
 		{56991141-69FA-4D26-BB13-9EA3BF0A2E21} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
 		{A57765BC-0206-41E6-8EBF-54C6D5C9736F} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
 		{E329C375-F076-4704-8E71-BD017FA34469} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
-		{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
+		{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF} = {DB61D0DF-134B-4CC3-91FC-2063F48527E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BB4DCC0-27D1-45F6-8196-DF5957A68435}
