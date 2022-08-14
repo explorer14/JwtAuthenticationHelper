@@ -88,17 +88,16 @@ Task("PushToNuGet")
 		Information($"Publishing to {packageFeedUrl}...");
 		var files = GetFiles("./artifacts/**/*.*.nupkg");		
 
+		var settings = new DotNetCoreNuGetPushSettings
+        {
+            Source = packageFeedUrl,
+            ApiKey = EnvironmentVariable("SYSTEM_ACCESSTOKEN"),
+            SkipDuplicate = true
+        };
+
 		foreach(var file in files)
 		{
 			Information("File: {0}", file);
-
-			var settings = new DotNetCoreNuGetPushSettings
-        	{
-        	    Source = "SkynetNuget",
-        	    ApiKey = "gibberish",
-        	    SkipDuplicate = true
-        	};
-
         	DotNetCoreNuGetPush(file.FullPath, settings);			
 		}
 });
