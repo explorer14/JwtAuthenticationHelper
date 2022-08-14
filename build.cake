@@ -35,8 +35,7 @@ void SetUpNuget()
                                 Source = feed.Source,
                                 UserName = "skynetcode",
                                 Password = EnvironmentVariable("SYSTEM_ACCESSTOKEN"),
-				                StorePasswordInClearText = true,
-                                Verbosity = DotNetVerbosity.Detailed
+				                StorePasswordInClearText = true
                              };			
 
 		try
