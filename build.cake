@@ -1,9 +1,9 @@
 var target = Argument("target", "PushNuGet");
 var packageFeedUrl = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json";
 var solutionFilePath = "./JwtAuthenticationHelper.sln";
-var coreLibPath = "./src/JwtGenerator/JwtGenerator.csproj";
-var cookieExtensionLibPath = "./src/JwtGenerator.ServiceCollection.Extensions.Cookies/JwtGenerator.ServiceCollection.Extensions.Cookies.csproj";
-var jwtExtensionLibPath = "./src/JwtGenerator.ServiceCollection.Extensions.JwtBearer/JwtGenerator.ServiceCollection.Extensions.JwtBearer.csproj";
+var coreLibPath = "./src/JwtHelper.Core/JwtHelper.Core.csproj";
+var cookieExtensionLibPath = "./src/JwtHelper.ServiceCollection.Extensions.Cookies/JwtHelper.ServiceCollection.Extensions.Cookies.csproj";
+var jwtExtensionLibPath = "./src/JwtHelper.ServiceCollection.Extensions.JwtBearer/JwtHelper.ServiceCollection.Extensions.JwtBearer.csproj";
 
 void SetUpNuget()
 {
@@ -52,6 +52,16 @@ Task("Build")
 		};
 		Information("Building solution...");
         DotNetCoreBuild(solutionFilePath, config);
+});
+
+Task("Verify-PR")
+	.IsDependentOn("Build")
+	.Does(()=> {
+		var config = new DotNetCoreTestSettings
+		{
+			NoBuild = true
+		};
+		DotNetCoreTest(solutionFilePath, config);
 });
 
 Task("Pack")

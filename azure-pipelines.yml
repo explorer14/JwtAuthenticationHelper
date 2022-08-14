@@ -1,14 +1,28 @@
 trigger:
 - master
+pr:
+- master 
   
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 variables:
 - group: 'Library Common Vars'
     
 steps:
   - task: PowerShell@2
+    displayName: Verify PR
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+    inputs:
+      filePath: 'build.ps1'
+      arguments: '-Target Verify-PR'
+      pwsh: true
+    env:      
+      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+  - task: PowerShell@2
+    displayName: Push packages to private Nuget
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     inputs:
       filePath: 'build.ps1'
       arguments: '-Target PushToNuget'
