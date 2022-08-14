@@ -5,6 +5,23 @@ var coreLibPath = "./src/JwtHelper.Core/JwtHelper.Core.csproj";
 var cookieExtensionLibPath = "./src/JwtHelper.ServiceCollection.Extensions.Cookies/JwtHelper.ServiceCollection.Extensions.Cookies.csproj";
 var jwtExtensionLibPath = "./src/JwtHelper.ServiceCollection.Extensions.JwtBearer/JwtHelper.ServiceCollection.Extensions.JwtBearer.csproj";
 
+Setup(ctx=>
+{
+    var buildNumber = EnvironmentVariable("BUILD_BUILDNUMBER");
+
+    if(!string.IsNullOrWhiteSpace(buildNumber))
+    {
+        Information($"The build number was {buildNumber}");
+        semVer = buildNumber;
+    }
+    else
+    {
+        Information($"The build number was empty, using the default semantic version of {semVer.ToString()}");
+    }
+
+	SetUpNuget();
+});
+
 void SetUpNuget()
 {
 	Information("Setting up Nuget feed...");
@@ -15,30 +32,37 @@ void SetUpNuget()
 	    Source = packageFeedUrl
 	};
 
-	if (!NuGetHasSource(source:feed.Source))
+	if (!DotNetCoreNuGetHasSource(name:feed.Name))
 	{
 		Warning($"Nuget feed {feed.Source} not found, adding...");
-	    var nugetSourceSettings = new NuGetSourcesSettings
+	    var nugetSourceSettings = new DotNetCoreNuGetSourceSettings
                              {
-                                 UserName = "skynetcode",
-                                 Password = EnvironmentVariable("SYSTEM_ACCESSTOKEN"),
-                                 Verbosity = NuGetVerbosity.Detailed
+                                Source = feed.Source,
+                                UserName = "skynetcode",
+                                Password = EnvironmentVariable("SYSTEM_ACCESSTOKEN"),
+				                StorePasswordInClearText = true
+                                Verbosity = DotNetVerbosity.Detailed
                              };			
 
-		NuGetAddSource(
-		    name:feed.Name,
-		    source:feed.Source,
-		    settings:nugetSourceSettings);
+		try
+        {
+            DotNetCoreNuGetAddSource(
+                name:feed.Name,
+                settings:nugetSourceSettings);
+        }
+        catch(Exception ex)
+        {
+            Warning(ex.Message);
+        }
 	}	
 	else
 	{
-		Information($"Nuget feed {feed.Source} already exists!");
+		Information($"Nuget feed {feed.Name} already exists!");
 	}
 }
 
 Task("Restore")
-    .Does(() => {
-		SetUpNuget();
+    .Does(() => {		
 		Information("Restoring nuget packages...");
 		DotNetCoreRestore(solutionFilePath);	
 });
@@ -88,18 +112,17 @@ Task("PushToNuGet")
 		Information($"Publishing to {packageFeedUrl}");
 		var files = GetFiles("./artifacts/**/*.*.nupkg");		
 
-		var settings = new DotNetNuGetPushSettings
+		var settings = new DotNetCoreNuGetPushSettings
         {
             Source = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json",
             ApiKey = "gibberish",
-            SkipDuplicate = true,
-			Verbosity = DotNetVerbosity.Detailed
+            SkipDuplicate = true
         };
 
 		foreach(var file in files)
 		{
 			Information("File: {0}", file);
-        	DotNetNuGetPush(file.FullPath, settings);			
+        	DotNetCoreNuGetPush(file.FullPath, settings);			
 		}
 });
 
