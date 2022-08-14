@@ -25,14 +25,21 @@ namespace JwtHelper.Core
             string jwt,
             TokenValidationParameters tokenValidationParameters)
         {
-            new JwtSecurityTokenHandler().ValidateToken(
+            try
+            {
+                new JwtSecurityTokenHandler().ValidateToken(
                 jwt, tokenValidationParameters, out var token);
 
-            if (!(token is JwtSecurityToken _jwt) ||
-                !_jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.Ordinal))
-                return JwtValidationResult.Failure("Signing algorithm does not match");
+                if (!(token is JwtSecurityToken _jwt) ||
+                    !_jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.Ordinal))
+                    return JwtValidationResult.Failure("Signing algorithm does not match");
 
-            return JwtValidationResult.Success();
+                return JwtValidationResult.Success();
+            }
+            catch (Exception exception)
+            {
+                return JwtValidationResult.Failure(exception.Message);
+            }
         }
     }
 }

@@ -43,6 +43,18 @@ namespace JwtAuthenticationHelpers.Tests
         }
 
         [Fact]
+        public void ShouldFailWithReasonIfValidationThrowsException()
+        {
+            var inValidJwt =
+                "eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJpc3MiOiJJU1NVRVIiLCJpYXQiOjE2NjA0Nzc4MjMsImV4cCI6MTY5MjAxNDEyMywiYXVkIjoiQVVESUVOQ0UiLCJzdWIiOiJTVUJKRUNUIn0.HAPE20LacGZQoyyKDPHBOePXy6OKlAOx6TxKQpUPp69A85kmPsQimO3dEJCnA5Bp";
+
+            var validator = new DefaultJwtTokenValidator();
+            var result = validator.Validate(inValidJwt, DefaultTokenOptions());
+            result.IsTokenValid.Should().BeFalse();
+            result.Reason.Should().NotBeNull();
+        }
+
+        [Fact]
         public void ShouldSucceedIfTokenIsValid()
         {
             var validator = new DefaultJwtTokenValidator();

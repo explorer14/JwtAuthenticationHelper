@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtAuthWithCookie.Web3.1", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{DB61D0DF-134B-4CC3-91FC-2063F48527E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VanillaJwtUsage.Api", "samples\VanillaJwtUsage.Api\VanillaJwtUsage.Api.csproj", "{8A4450BA-EBE7-44B5-B64B-3DD7F6D32140}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A4450BA-EBE7-44B5-B64B-3DD7F6D32140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A4450BA-EBE7-44B5-B64B-3DD7F6D32140}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A4450BA-EBE7-44B5-B64B-3DD7F6D32140}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A4450BA-EBE7-44B5-B64B-3DD7F6D32140}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{A57765BC-0206-41E6-8EBF-54C6D5C9736F} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
 		{E329C375-F076-4704-8E71-BD017FA34469} = {322D3861-C9D8-4018-AA2C-54258E36D5A4}
 		{7303FFCC-ECFF-4343-80A5-25B5CEF02CBF} = {DB61D0DF-134B-4CC3-91FC-2063F48527E4}
+		{8A4450BA-EBE7-44B5-B64B-3DD7F6D32140} = {DB61D0DF-134B-4CC3-91FC-2063F48527E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3BB4DCC0-27D1-45F6-8196-DF5957A68435}
