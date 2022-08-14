@@ -59,7 +59,8 @@ Task("Verify-PR")
 	.Does(()=> {
 		var config = new DotNetCoreTestSettings
 		{
-			NoBuild = true
+			NoBuild = true,
+			Configuration = "Release"
 		};
 		DotNetCoreTest(solutionFilePath, config);
 });
