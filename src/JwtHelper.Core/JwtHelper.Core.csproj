@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="3.1.5" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.6.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.6.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.5" />
   </ItemGroup>
 
 </Project>

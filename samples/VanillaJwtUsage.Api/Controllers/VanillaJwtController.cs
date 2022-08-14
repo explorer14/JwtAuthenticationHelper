@@ -1,4 +1,5 @@
-﻿using JwtHelper.Core.Abstractions;
+﻿using JwtHelper.Core;
+using JwtHelper.Core.Abstractions;
 using JwtHelper.Core.Types;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -26,7 +27,10 @@ namespace VanillaJwtUsage.Api.Controllers
         [HttpGet]
         public ActionResult GenerateToken()
         {
-            var jwt = jwtTokenGenerator.GenerateAccessToken("test", Array.Empty<Claim>());
+            var jwt = jwtTokenGenerator.GenerateAccessToken("test", new[]
+            {
+                new Claim("RequestId", Guid.NewGuid().ToString())
+            });
             return Ok(jwt);
         }
 
@@ -35,7 +39,10 @@ namespace VanillaJwtUsage.Api.Controllers
         {
             var result = jwtTokenValidator.Validate(jwt, tokenOptions);
 
-            return Ok(result);
+            var issuedAtClaim = JwtClaimsParser.GetClaims(jwt).GetClaimValueForType("nbf");
+            var requestIdClaim = JwtClaimsParser.GetClaims(jwt).GetClaimValueForType("RequestId");
+
+            return Ok(new { ValidationResult = result, NotBefore = issuedAtClaim, RequestId = requestIdClaim });
         }
     }
 }
