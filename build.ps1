@@ -7,5 +7,5 @@ Param (
 )
 
 Invoke-Expression -Command "dotnet new tool-manifest --force" -ErrorAction Stop;
-Invoke-Expression -Command "dotnet tool install Cake.Tool --version 0.38.5" -ErrorAction Stop;
+Invoke-Expression -Command "dotnet tool install Cake.Tool --version 2.2.0" -ErrorAction Stop;
 Invoke-Expression -Command "dotnet cake --target='$Target' --configuration='$Configuration' --verbosity='$Verbosity' --doNotBuild='$NoBuild'" -ErrorAction Stop;
