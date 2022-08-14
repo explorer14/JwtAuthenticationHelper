@@ -94,8 +94,8 @@ Task("PushToNuGet")
 
 			var settings = new DotNetCoreNuGetPushSettings
         	{
-        	    Source = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json",
-        	    ApiKey = EnvironmentVariable("SYSTEM_ACCESSTOKEN"),
+        	    Source = "SkynetNuget",
+        	    ApiKey = "gibberish",
         	    SkipDuplicate = true
         	};
 
