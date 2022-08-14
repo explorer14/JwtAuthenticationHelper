@@ -14,7 +14,7 @@ namespace JwtHelper.Core
     ///   A generic Json Web Token generator for use with token based
     ///   authentication in web applications
     /// </summary>
-    public sealed class JwtTokenGenerator : IJwtTokenGenerator
+    public sealed class DefaultJwtTokenGenerator : IJwtTokenGenerator
     {
         private readonly TokenOptions tokenOptions;
 
@@ -23,7 +23,7 @@ namespace JwtHelper.Core
         /// </summary>
         /// <param name="tokenOptions"> </param>
 
-        public JwtTokenGenerator(TokenOptions tokenOptions)
+        public DefaultJwtTokenGenerator(TokenOptions tokenOptions)
         {
             this.tokenOptions = tokenOptions ??
                 throw new ArgumentNullException(

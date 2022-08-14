@@ -24,8 +24,8 @@ namespace JwtHelper.ServiceCollection.Extensions.JwtBearer
                     $"Please make sure you've provided a valid instance with the appropriate values configured.");
             }
 
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>(serviceProvider =>
-                new JwtTokenGenerator(tokenOptions));
+            services.AddScoped<IJwtTokenGenerator, DefaultJwtTokenGenerator>(serviceProvider =>
+                new DefaultJwtTokenGenerator(tokenOptions));
 
             services.AddAuthentication(options =>
             {

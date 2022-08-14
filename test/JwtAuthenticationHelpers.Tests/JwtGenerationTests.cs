@@ -12,7 +12,7 @@ namespace JwtAuthenticationHelpers.Tests
         [Fact]
         public void ShouldGenerateJWTWithClaimsPrincipalsAndOptionalClaims()
         {
-            var tokenGen = new JwtTokenGenerator(
+            var tokenGen = new DefaultJwtTokenGenerator(
                 new TokenOptions(
                     "Me",
                     "Me2",

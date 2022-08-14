@@ -146,7 +146,7 @@ namespace JwtAuthenticationHelpers.Tests
             TokenOptions options = null)
         {
             var tokenGenerator =
-                new JwtTokenGenerator(
+                new DefaultJwtTokenGenerator(
                     options ?? new TokenOptions(
                                 "Token.WebApp",
                                 "Token.WebApp.Clients",

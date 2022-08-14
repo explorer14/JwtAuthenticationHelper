@@ -48,9 +48,9 @@ namespace JwtHelper.ServiceCollection.Extensions.Cookies
 
             services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>(
+            services.AddScoped<IJwtTokenGenerator, DefaultJwtTokenGenerator>(
                 serviceProvider =>
-                new JwtTokenGenerator(
+                new DefaultJwtTokenGenerator(
                     tokenOptions));
 
             services.AddAuthentication(options =>
