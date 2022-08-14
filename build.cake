@@ -1,5 +1,5 @@
 var target = Argument("target", "PushNuGet");
-var packageFeedUrl = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json";
+var packageFeedUrl = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json";					 
 var solutionFilePath = "./JwtAuthenticationHelper.sln";
 var coreLibPath = "./src/JwtHelper.Core/JwtHelper.Core.csproj";
 var cookieExtensionLibPath = "./src/JwtHelper.ServiceCollection.Extensions.Cookies/JwtHelper.ServiceCollection.Extensions.Cookies.csproj";
@@ -85,12 +85,12 @@ Task("Pack")
 Task("PushToNuGet")
 	.IsDependentOn("Pack")
 	.Does(()=>{
-		Information($"Publishing to {packageFeedUrl}...");
+		Information($"Publishing to {packageFeedUrl}");
 		var files = GetFiles("./artifacts/**/*.*.nupkg");		
 
 		var settings = new DotNetCoreNuGetPushSettings
         {
-            Source = packageFeedUrl,
+            Source = "skynetpackagefeed",
             ApiKey = EnvironmentVariable("SYSTEM_ACCESSTOKEN"),
             SkipDuplicate = true
         };
