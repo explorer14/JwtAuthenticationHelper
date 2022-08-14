@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>JwtAuthWithCookie.Web3._1</RootNamespace>
+    <UserSecretsId>279741fe-adf4-4cb2-a2e8-2b83b3a19979</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

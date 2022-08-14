@@ -39,7 +39,7 @@ namespace JwtAuthWithCookie.Web3._1.Controllers
             // Replace this with your custom authentication logic which will
             // securely return the authenticated user's details including
             // any role specific info
-            if (userCredentials.Username == "user1" && userCredentials.Password == "aman14")
+            if (userCredentials.Username == "user1" && userCredentials.Password == "badpassword")
             {
                 var userInfo = new UserInfo
                 {
