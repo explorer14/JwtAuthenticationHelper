@@ -1,5 +1,5 @@
-﻿using JwtGenerator.Abstractions;
-using JwtGenerator.Types;
+﻿using JwtHelper.Core.Abstractions;
+using JwtHelper.Core.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,19 +8,20 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 
-namespace JwtGenerator
+namespace JwtHelper.Core
 {
     /// <summary>
-    /// A generic Json Web Token generator for use with token based authentication in web applications
+    ///   A generic Json Web Token generator for use with token based
+    ///   authentication in web applications
     /// </summary>
     public sealed class JwtTokenGenerator : IJwtTokenGenerator
     {
         private readonly TokenOptions tokenOptions;
 
         /// <summary>
-        /// Create a token generator instance
+        ///   Create a token generator instance
         /// </summary>
-        /// <param name="tokenOptions"></param>
+        /// <param name="tokenOptions"> </param>
 
         public JwtTokenGenerator(TokenOptions tokenOptions)
         {

@@ -2,32 +2,33 @@
 using System;
 using System.Text;
 
-namespace JwtGenerator.Types
+namespace JwtHelper.Core.Types
 {
     /// <summary>
-    /// A structure containting the various options required
-    /// to generate a valid Json Web Token
+    ///   A structure containting the various options required to generate a
+    ///   valid Json Web Token
     /// </summary>
     public sealed class TokenOptions
     {
         /// <summary>
-        /// Creates a new instance of <see cref="TokenOptions"/>
+        ///   Creates a new instance of <see cref="TokenOptions"/>
         /// </summary>
-        /// <param name="issuer">
-        /// Required. Issuer of the token, usually,
-        /// your web application URL but could be any string
+        /// <param name="issuer">              
+        ///   Required. Issuer of the token, usually, your web application URL
+        ///   but could be any string
         /// </param>
-        /// <param name="audience">
-        /// Required. Audience of the token i.e. who the token is for.
-        /// Could be any string
+        /// <param name="audience">            
+        ///   Required. Audience of the token i.e. who the token is for. Could
+        ///   be any string
         /// </param>
-        /// <param name="signingKey">
-        /// Required. An instance of <see cref="SecurityKey"/> containing
-        /// the encoded 128-bit string.
-        /// Any string that is sufficiently long and unguessable will do.
+        /// <param name="signingKey">          
+        ///   Required. An instance of <see cref="SecurityKey"/> containing the
+        ///   encoded 128-bit string. Any string that is sufficiently long and
+        ///   unguessable will do.
         /// </param>
-        /// <param name="tokenExpiryInMinutes">Defaults to 5 minutes
-        /// but can be longer or shorter.</param>
+        /// <param name="tokenExpiryInMinutes">
+        ///   Defaults to 5 minutes but can be longer or shorter.
+        /// </param>
         public TokenOptions(string issuer,
                             string audience,
                             string rawSigningKey,

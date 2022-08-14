@@ -1,5 +1,5 @@
 ﻿using JwtGenerator.ServiceCollection.Extensions.JwtBearer;
-using JwtGenerator.Types;
+using JwtHelper.Core.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +17,8 @@ namespace JwtTokenAuthRefImplementation.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. Use this method to add
+        // services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var tokenOptions = new TokenOptions(
@@ -35,7 +36,8 @@ namespace JwtTokenAuthRefImplementation.API
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // This method gets called by the runtime. Use this method to configure
+        // the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -50,7 +52,7 @@ namespace JwtTokenAuthRefImplementation.API
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
-            app.UseAuthorization();            
+            app.UseAuthorization();
             app.UseEndpoints(ep => ep.MapControllers());
         }
     }

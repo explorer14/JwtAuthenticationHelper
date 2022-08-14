@@ -1,6 +1,7 @@
-﻿using JwtGenerator.Abstractions;
-using JwtGenerator.Extensions;
-using JwtGenerator.Types;
+﻿using JwtHelper.Core;
+using JwtHelper.Core.Abstractions;
+using JwtHelper.Core.Extensions;
+using JwtHelper.Core.Types;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using System;

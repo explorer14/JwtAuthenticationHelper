@@ -1,4 +1,4 @@
-﻿using JwtGenerator.Abstractions;
+﻿using JwtHelper.Core.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

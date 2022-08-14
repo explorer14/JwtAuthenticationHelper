@@ -1,5 +1,5 @@
-﻿using JwtGenerator;
-using JwtGenerator.Types;
+﻿using JwtHelper.Core;
+using JwtHelper.Core.Types;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;

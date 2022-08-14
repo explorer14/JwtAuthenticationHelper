@@ -1,8 +1,8 @@
-﻿using JwtGenerator.Types;
+﻿using JwtHelper.Core.Types;
 using Microsoft.IdentityModel.Tokens;
 using System;
 
-namespace JwtGenerator.Extensions
+namespace JwtHelper.Core.Extensions
 {
     public static class TokenValidationParametersExtensions
     {

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\JwtGenerator\JwtGenerator.csproj" />
+    <ProjectReference Include="..\..\src\JwtHelper.Core\JwtHelper.Core.csproj" />
   </ItemGroup>
 
 </Project>

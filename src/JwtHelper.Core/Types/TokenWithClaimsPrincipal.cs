@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 
-namespace JwtGenerator.Types
+namespace JwtHelper.Core.Types
 {
     public sealed class TokenWithClaimsPrincipal
     {
