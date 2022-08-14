@@ -207,7 +207,7 @@ namespace JwtAuthenticationHelpers.Tests
         {
             var services = new ServiceCollection();
             services.AddDataProtection(
-                options => 
+                options =>
                     options.ApplicationDiscriminator = $"{nameof(TicketFormatTests)}")
                 .SetApplicationName($"{nameof(TicketFormatTests)}");
 
@@ -221,7 +221,7 @@ namespace JwtAuthenticationHelpers.Tests
             return dataProtector;
         }
 
-        private static string SecurityKey() => 
-            "f47b558d-7654-458c-99f2-13b190ef0199";
+        private static string SecurityKey() =>
+            "thisisabadsigningkeycozeasytoguessit";
     }
 }
