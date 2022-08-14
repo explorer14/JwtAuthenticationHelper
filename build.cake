@@ -11,13 +11,8 @@ Setup(ctx=>
 
     if(!string.IsNullOrWhiteSpace(buildNumber))
     {
-        Information($"The build number was {buildNumber}");
-        semVer = buildNumber;
-    }
-    else
-    {
-        Information($"The build number was empty, using the default semantic version of {semVer.ToString()}");
-    }
+        Information($"The build number was {buildNumber}");        
+    }    
 
 	SetUpNuget();
 });
@@ -32,21 +27,21 @@ void SetUpNuget()
 	    Source = packageFeedUrl
 	};
 
-	if (!DotNetCoreNuGetHasSource(name:feed.Name))
+	if (!DotNetNuGetHasSource(name:feed.Name))
 	{
 		Warning($"Nuget feed {feed.Source} not found, adding...");
-	    var nugetSourceSettings = new DotNetCoreNuGetSourceSettings
+	    var nugetSourceSettings = new DotNetNuGetSourceSettings
                              {
                                 Source = feed.Source,
                                 UserName = "skynetcode",
                                 Password = EnvironmentVariable("SYSTEM_ACCESSTOKEN"),
-				                StorePasswordInClearText = true
+				                StorePasswordInClearText = true,
                                 Verbosity = DotNetVerbosity.Detailed
                              };			
 
 		try
         {
-            DotNetCoreNuGetAddSource(
+            DotNetNuGetAddSource(
                 name:feed.Name,
                 settings:nugetSourceSettings);
         }
@@ -64,7 +59,7 @@ void SetUpNuget()
 Task("Restore")
     .Does(() => {		
 		Information("Restoring nuget packages...");
-		DotNetCoreRestore(solutionFilePath);	
+		DotNetRestore(solutionFilePath);	
 });
 
 Task("Build")
@@ -75,7 +70,7 @@ Task("Build")
 			Configuration = "Release"
 		};
 		Information("Building solution...");
-        DotNetCoreBuild(solutionFilePath, config);
+        DotNetBuild(solutionFilePath, config);
 });
 
 Task("Verify-PR")
@@ -86,7 +81,7 @@ Task("Verify-PR")
 			NoBuild = true,
 			Configuration = "Release"
 		};
-		DotNetCoreTest(solutionFilePath, config);
+		DotNetTest(solutionFilePath, config);
 });
 
 Task("Pack")
@@ -101,9 +96,9 @@ Task("Pack")
 		};
 
 		Information("Packing binaries...");
-		DotNetCorePack(coreLibPath, settings);
-		DotNetCorePack(cookieExtensionLibPath, settings);
-		DotNetCorePack(jwtExtensionLibPath, settings);
+		DotNetPack(coreLibPath, settings);
+		DotNetPack(cookieExtensionLibPath, settings);
+		DotNetPack(jwtExtensionLibPath, settings);
 });
 
 Task("PushToNuGet")
@@ -112,7 +107,7 @@ Task("PushToNuGet")
 		Information($"Publishing to {packageFeedUrl}");
 		var files = GetFiles("./artifacts/**/*.*.nupkg");		
 
-		var settings = new DotNetCoreNuGetPushSettings
+		var settings = new DotNetNuGetPushSettings
         {
             Source = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json",
             ApiKey = "gibberish",
@@ -122,7 +117,7 @@ Task("PushToNuGet")
 		foreach(var file in files)
 		{
 			Information("File: {0}", file);
-        	DotNetCoreNuGetPush(file.FullPath, settings);			
+        	DotNetNuGetPush(file.FullPath, settings);			
 		}
 });
 
