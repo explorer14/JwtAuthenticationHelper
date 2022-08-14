@@ -92,19 +92,14 @@ Task("PushToNuGet")
 		{
 			Information("File: {0}", file);
 
-			using(var process = StartAndReturnProcess("dotnet", 
-				new ProcessSettings
-				{ 
-					Arguments = $"nuget push {file} --skip-duplicate -n true -s {packageFeedUrl} -k bla" 
-				}))
-			{
-				process.WaitForExit();
-				// This should output 0 as valid arguments supplied
-				var exitCode = process.GetExitCode();
+			var settings = new DotNetCoreNuGetPushSettings
+        	{
+        	    Source = "https://skynetcode.pkgs.visualstudio.com/_packaging/skynetpackagefeed/nuget/v3/index.json",
+        	    ApiKey = "gibberish",
+        	    SkipDuplicate = true
+        	};
 
-				if (exitCode > 0)
-					throw new InvalidOperationException($"Failed to publish to Nuget with exit code {exitCode}.");
-			}
+        	DotNetCoreNuGetPush(file.FullPath, settings);			
 		}
 });
 
