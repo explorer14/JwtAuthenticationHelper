@@ -69,7 +69,7 @@ namespace JwtAuthenticationHelpers.Tests
             result.Reason.Should().BeEmpty();
         }
 
-        private TokenOptions DefaultTokenOptions() =>
-            new TokenOptions("ISSUER", "AUDIENCE", "abcdefghijklmnopqr12345");
+        private TokenOptions DefaultTokenOptions(string? signingKey = null) =>
+            new(issuer: "ISSUER", audience: "AUDIENCE", rawSigningKey: signingKey ?? "abcdefghijklmnopqr12345");
     }
 }
