@@ -13,10 +13,9 @@ namespace JwtHelper.Core
     /// </summary>
     public sealed class JwtAuthTicketFormat : ISecureDataFormat<AuthenticationTicket>
     {
-        private const string Algorithm = SecurityAlgorithms.HmacSha256;
-        private readonly TokenValidationParameters validationParameters;
-        private readonly IDataSerializer<AuthenticationTicket> ticketSerializer;
-        private readonly IDataProtector dataProtector;
+        private readonly TokenValidationParameters _validationParameters;
+        private readonly IDataSerializer<AuthenticationTicket> _ticketSerializer;
+        private readonly IDataProtector _dataProtector;
 
         /// <summary>
         ///   Create a new instance of the <see cref="JwtAuthTicketFormat"/>
@@ -37,11 +36,11 @@ namespace JwtHelper.Core
             IDataSerializer<AuthenticationTicket> ticketSerializer,
             IDataProtector dataProtector)
         {
-            this.validationParameters = validationParameters ??
+            _validationParameters = validationParameters ??
                 throw new ArgumentNullException($"{nameof(validationParameters)} cannot be null");
-            this.ticketSerializer = ticketSerializer ??
+            _ticketSerializer = ticketSerializer ??
                 throw new ArgumentNullException($"{nameof(ticketSerializer)} cannot be null"); ;
-            this.dataProtector = dataProtector ??
+            _dataProtector = dataProtector ??
                 throw new ArgumentNullException($"{nameof(dataProtector)} cannot be null");
         }
 
@@ -66,28 +65,28 @@ namespace JwtHelper.Core
         /// <returns> </returns>
         public AuthenticationTicket Unprotect(string protectedText, string purpose)
         {
-            var authTicket = default(AuthenticationTicket);
+            AuthenticationTicket authTicket;
 
             try
             {
-                authTicket = ticketSerializer.Deserialize(
-                dataProtector.Unprotect(
+                authTicket = _ticketSerializer.Deserialize(
+                _dataProtector.Unprotect(
                     Base64UrlTextEncoder.Decode(protectedText)));
 
                 var embeddedJwt = authTicket
                     .Properties?
                     .GetTokenValue(TokenConstants.TokenName);
                 new JwtSecurityTokenHandler()
-                    .ValidateToken(embeddedJwt, validationParameters, out var token);
+                    .ValidateToken(embeddedJwt, _validationParameters, out var token);
 
                 if (!(token is JwtSecurityToken jwt))
                 {
                     throw new SecurityTokenValidationException("JWT token was found to be invalid");
                 }
 
-                if (!jwt.Header.Alg.Equals(Algorithm, StringComparison.Ordinal))
+                if (!jwt.Header.Alg.Equals(JwtSigningAlgorithms.Default(), StringComparison.Ordinal))
                 {
-                    throw new ArgumentException($"Algorithm must be '{Algorithm}'");
+                    throw new ArgumentException($"Algorithm must be '{JwtSigningAlgorithms.Default()}'");
                 }
             }
             catch (Exception)
@@ -116,9 +115,9 @@ namespace JwtHelper.Core
         /// <returns> encrypted string representing the <see cref="AuthenticationTicket"/> </returns>
         public string Protect(AuthenticationTicket data, string purpose)
         {
-            var array = ticketSerializer.Serialize(data);
+            var array = _ticketSerializer.Serialize(data);
 
-            return Base64UrlTextEncoder.Encode(dataProtector.Protect(array));
+            return Base64UrlTextEncoder.Encode(_dataProtector.Protect(array));
         }
     }
 }

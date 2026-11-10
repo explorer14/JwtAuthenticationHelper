@@ -221,7 +221,6 @@ namespace JwtAuthenticationHelpers.Tests
             return dataProtector;
         }
 
-        private static string SecurityKey() =>
-            "thisisabadsigningkeycozeasytoguessit";
+        private static string SecurityKey() => SigningKeyHelper.SigningKeyOf512Bits();
     }
 }

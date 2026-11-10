@@ -31,7 +31,7 @@ namespace JwtHelper.Core
                 jwt, tokenValidationParameters, out var token);
 
                 if (!(token is JwtSecurityToken _jwt) ||
-                    !_jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.Ordinal))
+                    !_jwt.Header.Alg.Equals(JwtSigningAlgorithms.Default(), StringComparison.Ordinal))
                     return JwtValidationResult.Failure("Signing algorithm does not match");
 
                 return JwtValidationResult.Success();

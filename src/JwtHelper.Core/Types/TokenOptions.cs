@@ -21,9 +21,9 @@ namespace JwtHelper.Core.Types
         ///   Required. Audience of the token i.e. who the token is for. Could
         ///   be any string
         /// </param>
-        /// <param name="signingKey">          
+        /// <param name="rawSigningKey">          
         ///   Required. An instance of <see cref="SecurityKey"/> containing the
-        ///   encoded 128-bit string. Any string that is sufficiently long and
+        ///   encoded 512-bit string. Any string that is sufficiently long and
         ///   unguessable will do.
         /// </param>
         /// <param name="tokenExpiryInMinutes">

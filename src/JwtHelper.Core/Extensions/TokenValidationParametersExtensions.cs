@@ -8,7 +8,7 @@ namespace JwtHelper.Core.Extensions
     {
         public static TokenValidationParameters ToTokenValidationParams(
             this TokenOptions tokenOptions) =>
-            new TokenValidationParameters
+            new()
             {
                 ClockSkew = TimeSpan.Zero,
 

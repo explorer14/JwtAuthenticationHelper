@@ -16,7 +16,7 @@ namespace JwtHelper.Core
     /// </summary>
     public sealed class DefaultJwtTokenGenerator : IJwtTokenGenerator
     {
-        private readonly TokenOptions tokenOptions;
+        private readonly TokenOptions _tokenOptions;
 
         /// <summary>
         ///   Create a token generator instance
@@ -25,22 +25,22 @@ namespace JwtHelper.Core
 
         public DefaultJwtTokenGenerator(TokenOptions tokenOptions)
         {
-            this.tokenOptions = tokenOptions ??
+            this._tokenOptions = tokenOptions ??
                 throw new ArgumentNullException(
                     $"An instance of valid {nameof(TokenOptions)} must be passed in order to generate a JWT!"); ;
         }
 
         public string GenerateAccessToken(string userName, IEnumerable<Claim> userClaims)
         {
-            var expiration = TimeSpan.FromMinutes(tokenOptions.TokenExpiryInMinutes);
-            var jwt = new JwtSecurityToken(issuer: tokenOptions.Issuer,
-                                           audience: tokenOptions.Audience,
+            var expiration = TimeSpan.FromMinutes(_tokenOptions.TokenExpiryInMinutes);
+            var jwt = new JwtSecurityToken(issuer: _tokenOptions.Issuer,
+                                           audience: _tokenOptions.Audience,
                                            claims: MergeUserClaimsWithDefaultClaims(userName, userClaims),
                                            notBefore: DateTime.UtcNow,
                                            expires: DateTime.UtcNow.Add(expiration),
                                            signingCredentials: new SigningCredentials(
-                                               tokenOptions.SigningKey,
-                                               SecurityAlgorithms.HmacSha256));
+                                               _tokenOptions.SigningKey,
+                                               JwtSigningAlgorithms.Default()));
 
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
 
@@ -83,10 +83,10 @@ namespace JwtHelper.Core
         {
             var claims = new List<Claim>(userClaims)
             {
-                new Claim(ClaimTypes.Name, userName),
-                new Claim(JwtRegisteredClaimNames.Sub, userName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat,
+                new(type: ClaimTypes.Name, userName),
+                new(type: JwtRegisteredClaimNames.Sub, userName),
+                new(type: JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(type: JwtRegisteredClaimNames.Iat,
                     DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(),
                     ClaimValueTypes.Integer64)
             };

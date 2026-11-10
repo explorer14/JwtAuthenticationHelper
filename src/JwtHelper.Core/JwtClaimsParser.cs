@@ -39,7 +39,7 @@ namespace JwtHelper.Core
                 return tokenClaimsPart;
 
             var paddedString = new StringBuilder(tokenClaimsPart);
-            bool isMultipleOf4 = false;
+            var isMultipleOf4 = false;
 
             while (!isMultipleOf4)
             {

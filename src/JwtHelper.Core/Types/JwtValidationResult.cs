@@ -8,13 +8,11 @@
             Reason = reason;
         }
 
-        public bool IsTokenValid { get; private set; }
-        public string Reason { get; private set; } = string.Empty;
+        public bool IsTokenValid { get; }
+        public string Reason { get; }
 
-        internal static JwtValidationResult Failure(string reason) =>
-            new JwtValidationResult(false, reason);
+        internal static JwtValidationResult Failure(string reason) => new(isTokenValid: false, reason);
 
-        internal static JwtValidationResult Success() =>
-            new JwtValidationResult(true, string.Empty);
+        internal static JwtValidationResult Success() => new(isTokenValid: true, reason: string.Empty);
     }
 }

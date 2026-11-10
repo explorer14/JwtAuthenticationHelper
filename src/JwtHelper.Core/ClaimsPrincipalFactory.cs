@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace JwtHelper.Core
 {
-    public sealed class ClaimsPrincipalFactory
+    public static class ClaimsPrincipalFactory
     {
         /// <summary>
         ///   Create a <see cref="ClaimsPrincipal"/> using the claims passed in.
