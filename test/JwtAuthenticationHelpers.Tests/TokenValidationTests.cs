@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿#nullable enable
+using FluentAssertions;
 using JwtHelper.Core;
 using JwtHelper.Core.Types;
 using System;
