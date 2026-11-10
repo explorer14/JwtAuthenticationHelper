@@ -49,7 +49,7 @@ namespace JwtHelper.ServiceCollection.Extensions.Cookies
             services.AddScoped<IDataSerializer<AuthenticationTicket>, TicketSerializer>();
 
             services.AddScoped<IJwtTokenGenerator, DefaultJwtTokenGenerator>(
-                serviceProvider =>
+                _ =>
                 new DefaultJwtTokenGenerator(
                     tokenOptions));
 

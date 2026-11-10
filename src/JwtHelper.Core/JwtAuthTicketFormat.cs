@@ -36,11 +36,11 @@ namespace JwtHelper.Core
             IDataSerializer<AuthenticationTicket> ticketSerializer,
             IDataProtector dataProtector)
         {
-            this._validationParameters = validationParameters ??
+            _validationParameters = validationParameters ??
                 throw new ArgumentNullException($"{nameof(validationParameters)} cannot be null");
-            this._ticketSerializer = ticketSerializer ??
+            _ticketSerializer = ticketSerializer ??
                 throw new ArgumentNullException($"{nameof(ticketSerializer)} cannot be null"); ;
-            this._dataProtector = dataProtector ??
+            _dataProtector = dataProtector ??
                 throw new ArgumentNullException($"{nameof(dataProtector)} cannot be null");
         }
 
