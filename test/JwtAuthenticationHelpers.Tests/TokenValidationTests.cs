@@ -7,6 +7,7 @@ using Xunit;
 
 namespace JwtAuthenticationHelpers.Tests
 {
+    // Use this site to generate JWTs: https://www.jwt.io
     public class TokenValidationTests
     {
         [Theory]
