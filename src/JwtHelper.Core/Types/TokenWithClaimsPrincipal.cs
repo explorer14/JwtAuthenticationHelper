@@ -5,10 +5,10 @@ namespace JwtHelper.Core.Types
 {
     public sealed class TokenWithClaimsPrincipal
     {
-        public string AccessToken { get; internal set; }
+        public string AccessToken { get; internal init; }
 
-        public ClaimsPrincipal ClaimsPrincipal { get; internal set; }
+        public ClaimsPrincipal ClaimsPrincipal { get; internal init; }
 
-        public AuthenticationProperties AuthProperties { get; internal set; }
+        public AuthenticationProperties AuthProperties { get; internal init; }
     }
 }
