@@ -40,7 +40,7 @@ namespace JwtHelper.Core
                                            expires: DateTime.UtcNow.Add(expiration),
                                            signingCredentials: new SigningCredentials(
                                                tokenOptions.SigningKey,
-                                               SecurityAlgorithms.HmacSha512));
+                                               JwtSigningAlgorithms.Default()));
 
             var accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
 

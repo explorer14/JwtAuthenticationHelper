@@ -13,7 +13,6 @@ namespace JwtHelper.Core
     /// </summary>
     public sealed class JwtAuthTicketFormat : ISecureDataFormat<AuthenticationTicket>
     {
-        private const string Algorithm = SecurityAlgorithms.HmacSha256;
         private readonly TokenValidationParameters validationParameters;
         private readonly IDataSerializer<AuthenticationTicket> ticketSerializer;
         private readonly IDataProtector dataProtector;
@@ -85,9 +84,9 @@ namespace JwtHelper.Core
                     throw new SecurityTokenValidationException("JWT token was found to be invalid");
                 }
 
-                if (!jwt.Header.Alg.Equals(Algorithm, StringComparison.Ordinal))
+                if (!jwt.Header.Alg.Equals(JwtSigningAlgorithms.Default(), StringComparison.Ordinal))
                 {
-                    throw new ArgumentException($"Algorithm must be '{Algorithm}'");
+                    throw new ArgumentException($"Algorithm must be '{JwtSigningAlgorithms.Default()}'");
                 }
             }
             catch (Exception)
