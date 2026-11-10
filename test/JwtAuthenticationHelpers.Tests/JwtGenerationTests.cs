@@ -1,3 +1,4 @@
+using System;
 using JwtHelper.Core;
 using JwtHelper.Core.Types;
 using Microsoft.AspNetCore.Authentication;
@@ -12,11 +13,12 @@ namespace JwtAuthenticationHelpers.Tests
         [Fact]
         public void ShouldGenerateJWTWithClaimsPrincipalsAndOptionalClaims()
         {
+            var signingKey = SigningKeyHelper.SigningKeyOf512Bits();
             var tokenGen = new DefaultJwtTokenGenerator(
                 new TokenOptions(
                     "Me",
                     "Me2",
-                    "abcdefghijklmnopqr12345"));
+                    signingKey));
 
             var tcp = tokenGen.GenerateAccessTokenWithClaimsPrincipal("username@org.com",
                 new[]

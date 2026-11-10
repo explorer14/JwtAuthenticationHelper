@@ -72,6 +72,6 @@ namespace JwtAuthenticationHelpers.Tests
         }
 
         private TokenOptions DefaultTokenOptions(string? signingKey = null) =>
-            new(issuer: "ISSUER", audience: "AUDIENCE", rawSigningKey: signingKey ?? "abcdefghijklmnopqr12345");
+            new(issuer: "ISSUER", audience: "AUDIENCE", rawSigningKey: signingKey ?? SigningKeyHelper.SigningKeyOf512Bits());
     }
 }
