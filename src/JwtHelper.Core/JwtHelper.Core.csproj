@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.0.1</Version>
+    <Version>3.0.0</Version>
     <Copyright>©Aman Agrawal</Copyright>
     <Authors>Aman Agrawal</Authors>    
     <Description>A simple Json Web Token generation and validation library for ASP.NET Core.</Description>
