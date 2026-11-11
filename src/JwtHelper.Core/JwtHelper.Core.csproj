@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>2.0.1</Version>
+    <Version>3.0.0</Version>
     <Copyright>©Aman Agrawal</Copyright>
     <Authors>Aman Agrawal</Authors>    
     <Description>A simple Json Web Token generation and validation library for ASP.NET Core.</Description>
@@ -11,8 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.3.14" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="10.0.14" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.23.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
   </ItemGroup>
